@@ -72,3 +72,75 @@ create or replace view public.leaderboard with (security_invoker = true) as
   select id, created_at, player_name, face, club, money, made_million, titles, crowned, world, ovr, weekly_id
   from public.careers;
 grant select on public.leaderboard to anon, authenticated;
+
+-- =====================================================================
+-- Analytics: anonymous gameplay events (no cookies, no personal data).
+-- The game can only INSERT events. Reading happens through stats_overview(),
+-- which returns totals only — never individual rows.
+-- =====================================================================
+create table if not exists public.events (
+  id       bigint generated always as identity primary key,
+  at       timestamptz not null default now(),
+  visitor  text not null check (char_length(visitor) <= 40),   -- random id kept in the browser
+  session  text not null check (char_length(session) <= 40),
+  run      text check (char_length(run) <= 40),                 -- one career
+  name     text not null check (name ~ '^[a-z_]{2,24}$'),
+  stop     smallint check (stop between 0 and 8),
+  props    jsonb not null default '{}' check (pg_column_size(props) < 1500),
+  version  text check (char_length(version) <= 12),
+  device   text check (char_length(device) <= 12)
+);
+create index if not exists events_at_idx on public.events (at);
+create index if not exists events_name_idx on public.events (name, at);
+alter table public.events enable row level security;
+drop policy if exists "anyone can log events" on public.events;
+create policy "anyone can log events" on public.events for insert to anon, authenticated with check (at > now() - interval '5 minutes');
+grant insert on public.events to anon, authenticated;
+revoke select, update, delete on public.events from anon, authenticated;
+
+create or replace function public.stats_overview(days int default 30)
+returns jsonb
+language sql
+stable
+security definer
+set search_path = public
+as $$
+with ev as (select * from events where at > now() - make_interval(days => least(greatest(days, 1), 365))),
+ends as (select (props->>'money')::bigint as money, (props->>'made')::boolean as made from ev where name = 'career_end')
+select jsonb_build_object(
+  'days', days,
+  'visitors', (select count(distinct visitor) from ev),
+  'sessions', (select count(distinct session) from ev),
+  'starts', (select count(*) from ev where name = 'career_start'),
+  'finishes', (select count(*) from ends),
+  'millions', (select count(*) from ends where made),
+  'avg_money', (select coalesce(round(avg(money)), 0) from ends),
+  'median_money', (select coalesce(percentile_cont(0.5) within group (order by money), 0) from ends),
+  'weekly_starts', (select count(*) from ev where name = 'career_start' and (props->>'weekly') is not null),
+  'shares', (select count(*) from ev where name = 'share_click'),
+  'shared_views', (select count(*) from ev where name = 'shared_view'),
+  'daily', (select coalesce(jsonb_agg(d order by d->>'day'), '[]') from (
+      select jsonb_build_object('day', to_char(date_trunc('day', at), 'YYYY-MM-DD'),
+        'visitors', count(distinct visitor),
+        'starts', count(*) filter (where name = 'career_start'),
+        'finishes', count(*) filter (where name = 'career_end')) d
+      from ev group by date_trunc('day', at)) x),
+  'funnel', (select coalesce(jsonb_agg(jsonb_build_object('stop', s, 'runs', n) order by s), '[]') from (
+      select stop as s, count(distinct run) as n from ev where name = 'stop_done' group by stop) f),
+  'placements', (select coalesce(jsonb_object_agg(p, n), '{}') from (
+      select props->>'placement' as p, count(*) as n from ev where name = 'stop_done' group by 1) x),
+  'money_buckets', (select coalesce(jsonb_agg(jsonb_build_object('bucket', b, 'n', n) order by b), '[]') from (
+      select least(width_bucket(money, 0, 1200000, 12), 13) as b, count(*) as n from ends group by 1) x),
+  'attacks', (select coalesce(jsonb_object_agg(k, n), '{}') from (select props->>'atk' k, count(*) n from ev where name = 'plan' group by 1) x),
+  'defences', (select coalesce(jsonb_object_agg(k, n), '{}') from (select props->>'def' k, count(*) n from ev where name = 'plan' group by 1) x),
+  'training', (select coalesce(jsonb_object_agg(k, n), '{}') from (select jsonb_array_elements_text(props->'picks') k, count(*) n from ev where name = 'training' group by 1) x),
+  'golden', (select jsonb_build_object('played', count(*), 'won', count(*) filter (where (props->>'won')::boolean)) from ev where name = 'golden'),
+  'incidents', (select coalesce(jsonb_object_agg(k, jsonb_build_object('shown', n, 'yes', y)), '{}') from (
+      select props->>'id' k, count(*) n, count(*) filter (where (props->>'yes')::boolean) y from ev where name = 'incident' group by 1) x),
+  'devices', (select coalesce(jsonb_object_agg(coalesce(device, '?'), n), '{}') from (select device, count(distinct visitor) n from ev group by 1) x),
+  'referrers', (select coalesce(jsonb_object_agg(r, n), '{}') from (
+      select coalesce(nullif(props->>'ref', ''), 'direct') r, count(*) n from ev where name = 'visit' group by 1 order by 2 desc limit 8) x),
+  'versions', (select coalesce(jsonb_object_agg(coalesce(version, '?'), n), '{}') from (select version, count(distinct session) n from ev group by 1) x)
+);
+$$;
+grant execute on function public.stats_overview(int) to anon, authenticated;

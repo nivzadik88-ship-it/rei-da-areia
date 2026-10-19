@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Rei da Areia Stats</title>
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito+Sans:wght@600;800;900&display=swap">
+<script src="config.js"></script>
+<style>
+/* Same world as the game: navy scoreboard on sand, gold for money. One hue per job. */
+:root {
+  --sand: #FFF3D6; --card: #FFFFFF; --navy: #0B2545; --ink: #0B2545; --mist: #5A6B80; --line: #E8DFC8;
+  --gold: #E0A800; --gold-soft: #FFE38A; --bar: #1E5BD8; --bar-soft: #CFDDF7; --good: #0B8A4E;
+  --game: "Lilita One", "Arial Rounded MT Bold", sans-serif; --body: "Nunito Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root { --sand: #0E1A2B; --card: #14243A; --ink: #F3EBD6; --mist: #9FB3C8; --line: #24384F; --bar: #6E9BFF; --bar-soft: #24406E; --gold-soft: #5A4A10; --good: #3DD68C; color-scheme: dark; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--sand); color: var(--ink); font-family: var(--body); font-size: 14px; }
+header { background: var(--navy); color: #fff; padding: 18px max(16px, env(safe-area-inset-left)) 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+header h1 { font-family: var(--game); font-weight: 400; font-size: 26px; margin: 0; }
+header h1 span { color: #FFC400; }
+.range { margin-left: auto; display: flex; gap: 4px; background: rgba(255,255,255,.1); padding: 4px; border-radius: 12px; }
+.range button { border: 0; background: none; color: #DDF4FF; font: 800 13px var(--body); padding: 6px 12px; border-radius: 9px; cursor: pointer; }
+.range button.on { background: #FFC400; color: var(--navy); }
+main { max-width: 1100px; margin: 0 auto; padding: 16px max(16px, env(safe-area-inset-left)) 40px; display: grid; gap: 14px; grid-template-columns: repeat(12, 1fr); }
+.card { background: var(--card); border-radius: 16px; padding: 14px 16px; border: 1px solid var(--line); min-width: 0; }
+.card h2 { margin: 0 0 10px; font: 900 11px var(--body); letter-spacing: 1.2px; text-transform: uppercase; color: var(--mist); }
+.kpis { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.kpi b { display: block; font-family: var(--game); font-weight: 400; font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 11px; font-weight: 900; letter-spacing: .8px; text-transform: uppercase; color: var(--mist); }
+.kpi em { font-style: normal; font-size: 12px; font-weight: 800; color: var(--good); }
+.kpi.gold b { color: var(--gold); }
+.w12 { grid-column: 1 / -1; } .w6 { grid-column: span 6; } .w4 { grid-column: span 4; }
+@media (max-width: 760px) { .w6, .w4 { grid-column: 1 / -1; } }
+.bars { display: flex; flex-direction: column; gap: 6px; }
+.br { display: grid; grid-template-columns: minmax(90px, 34%) 1fr 64px; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; }
+.br .lb { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.br .tr { height: 14px; background: var(--bar-soft); border-radius: 4px; overflow: hidden; }
+.br .tr i { display: block; height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; }
+.br .v { text-align: right; font-variant-numeric: tabular-nums; color: var(--mist); }
+.br:hover .tr i { filter: brightness(1.15); }
+svg text { fill: var(--mist); font: 700 10px var(--body); }
+.empty { color: var(--mist); font-weight: 800; padding: 20px 0; text-align: center; }
+.tip { position: fixed; pointer-events: none; background: var(--navy); color: #fff; font-weight: 800; font-size: 12px; padding: 6px 9px; border-radius: 8px; transform: translate(-50%, -120%); white-space: nowrap; z-index: 5; }
+.note { grid-column: 1 / -1; color: var(--mist); font-size: 12px; font-weight: 700; }
+</style>
+</head>
+<body>
+<header><h1>Rei da Areia <span>stats</span></h1>
+  <div class="range" role="group" aria-label="Time range"><button data-d="1">24h</button><button data-d="7">7 days</button><button data-d="30" class="on">30 days</button><button data-d="90">90 days</button></div></header>
+<main id="m"><div class="card w12 empty">Loading…</div></main>
+<div class="tip" id="tip" hidden></div>
+<script>
+const C = window.REI_CONFIG || {}, URL_ = (C.supabaseUrl || '').replace(/\/$/, ''), KEY = C.supabaseAnonKey || '';
+const $ = (s) => document.querySelector(s), esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const n0 = (v) => Math.round(v || 0).toLocaleString('en-US');
+const brl = (v) => 'R$ ' + (v >= 1e6 ? (v / 1e6).toFixed(2) + 'M' : v >= 1e3 ? Math.round(v / 1e3) + 'K' : n0(v));
+const pct = (a, b) => (b ? Math.round((a / b) * 100) + '%' : '–');
+const NAMES = { shark: 'Shark', header: 'Power header', pingada: 'Pingada', diag: 'Diagonal / Paralela', chestc: 'Chest Control', block: 'Net Shark Block', ssave: 'Shark Save', dhead: 'Defensive Header', dive: 'Diving Save', foot: 'Foot Save', acro: 'Acrobatic Save',
+  atk1: 'Shark & Power header', atk2: 'Pingada & Diagonal', def1: 'Net defence', def2: 'Sand defence', camp: 'Pro camp', spa: 'Physio & ice baths', churras: 'Churrasco', show: 'Beach-bar show', mental: 'Mental coach', spar: 'Spar national team', video: 'Video of rivals', dunes: 'Dune runs' };
+const STOPS = ['Festival de Praia', 'Circuito Niterói', 'TAFC', 'Desafio', 'Open Nacional', 'Liga Rodada', 'Liga Final', 'Mondial'];
+function bars(obj, fmt = n0, labelOf = (k) => NAMES[k] || k, extra, keepOrder) {
+  const e = Object.entries(obj || {}); if (!keepOrder) e.sort((a, b) => (typeof b[1] === 'object' ? b[1].shown - a[1].shown : b[1] - a[1]));
+  if (!e.length) return '<div class="empty">No data yet</div>';
+  const val = (v) => (typeof v === 'object' ? v.shown : v), max = Math.max(...e.map(([, v]) => val(v)));
+  return `<div class="bars">${e.map(([k, v]) => `<div class="br" data-tip="${esc(labelOf(k))}: ${extra ? extra(v) : fmt(val(v))}"><span class="lb">${esc(labelOf(k))}</span><span class="tr"><i style="width:${(val(v) / max) * 100}%"></i></span><span class="v">${extra ? extra(v) : fmt(val(v))}</span></div>`).join('')}</div>`;
+}
+function line(daily) {
+  if (!daily.length) return '<div class="empty">No data yet</div>';
+  const W = 700, H = 180, L = 34, B = 22, T = 10, max = Math.max(1, ...daily.map((d) => d.visitors));
+  const x = (i) => L + (daily.length === 1 ? (W - L) / 2 : (i * (W - L - 10)) / (daily.length - 1)), y = (v) => T + (H - T - B) * (1 - v / max);
+  const pts = daily.map((d, i) => `${x(i)},${y(d.visitors)}`).join(' ');
+  const ticks = [0, Math.round(max / 2), max];
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Visitors per day">
+    ${ticks.map((t) => `<line x1="${L}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${L - 6}" y="${y(t) + 3}" text-anchor="end">${t}</text>`).join('')}
+    <polygon points="${x(0)},${H - B} ${pts} ${x(daily.length - 1)},${H - B}" fill="var(--bar-soft)" opacity=".6"/>
+    <polyline points="${pts}" fill="none" stroke="var(--bar)" stroke-width="2" stroke-linejoin="round"/>
+    ${daily.map((d, i) => `<circle cx="${x(i)}" cy="${y(d.visitors)}" r="4" fill="var(--bar)" stroke="var(--card)" stroke-width="2"/><rect x="${x(i) - 12}" y="0" width="24" height="${H}" fill="transparent" data-tip="${d.day}: ${d.visitors} visitors · ${d.starts} careers · ${d.finishes} finished"/>`).join('')}
+    ${daily.map((d, i) => (i === 0 || i === daily.length - 1 || daily.length < 9 ? `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${d.day.slice(5)}</text>` : '')).join('')}
+  </svg>`;
+}
+function render(s) {
+  const fin = s.finishes, st = s.starts;
+  const funnel = {}; (s.funnel || []).forEach((f) => (funnel[f.stop] = f.runs));
+  const fObj = {}; STOPS.forEach((n, i) => (fObj[i] = funnel[i] || 0));
+  const buckets = {}; (s.money_buckets || []).forEach((b) => (buckets[b.bucket] = b.n));
+  const bObj = {}; for (let b = 1; b <= 13; b++) bObj[b] = buckets[b] || 0;
+  const bLabel = (b) => (b >= 13 ? 'R$ 1.2M+' : `${(b - 1) * 100}K–${b * 100}K`);
+  $('#m').innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><span>Visitors</span><b>${n0(s.visitors)}</b><em>${n0(s.sessions)} sessions</em></div>
+      <div class="kpi"><span>Careers started</span><b>${n0(st)}</b><em>${n0(s.weekly_starts)} weekly</em></div>
+      <div class="kpi"><span>Finished</span><b>${n0(fin)}</b><em>${pct(fin, st)} of starts</em></div>
+      <div class="kpi gold"><span>Reached R$ 1M</span><b>${n0(s.millions)}</b><em>${pct(s.millions, fin)} of finishers</em></div>
+      <div class="kpi"><span>Median finish</span><b>${brl(s.median_money)}</b><em>avg ${brl(s.avg_money)}</em></div>
+      <div class="kpi"><span>Shares</span><b>${n0(s.shares)}</b><em>${n0(s.shared_views)} link opens</em></div>
+    </div>
+    <div class="card w12"><h2>Visitors per day</h2>${line(s.daily || [])}</div>
+    <div class="card w6"><h2>How far careers get (careers that finished each stop)</h2>${bars(fObj, n0, (k) => `${+k + 1}. ${STOPS[k]}`, null, true)}</div>
+    <div class="card w6"><h2>Final money of finished careers</h2>${bars(bObj, n0, bLabel, null, true)}</div>
+    <div class="card w4"><h2>Attacks chosen</h2>${bars(s.attacks)}</div>
+    <div class="card w4"><h2>Defences chosen</h2>${bars(s.defences)}</div>
+    <div class="card w4"><h2>Training picks</h2>${bars(s.training)}</div>
+    <div class="card w6"><h2>Offers between stops · shown (accepted)</h2>${bars(s.incidents, n0, (k) => k, (v) => `${v.shown} (${pct(v.yes, v.shown)})`)}</div>
+    <div class="card w6"><h2>Tournament results</h2>${bars(s.placements)}
+      <h2 style="margin-top:14px">Golden points</h2><div style="font-weight:800">${n0(s.golden && s.golden.played)} played · ${pct(s.golden && s.golden.won, s.golden && s.golden.played)} won</div></div>
+    <div class="card w4"><h2>Where visitors come from</h2>${bars(s.referrers)}</div>
+    <div class="card w4"><h2>Devices</h2>${bars(s.devices)}</div>
+    <div class="card w4"><h2>Game versions</h2>${bars(s.versions, n0, (k) => 'v' + k)}</div>
+    <p class="note">Anonymous gameplay events only: a random browser id, no cookies, no names or emails. Updated live; refresh to reload.</p>`;
+}
+async function load(days) {
+  if (!URL_ || !KEY) { $('#m').innerHTML = '<div class="card w12 empty">Add your Supabase URL and anon key to config.js to see stats.</div>'; return; }
+  $('#m').style.opacity = 0.5;
+  try {
+    const r = await fetch(`${URL_}/rest/v1/rpc/stats_overview`, { method: 'POST', headers: { apikey: KEY, ...(KEY.startsWith('eyJ') ? { Authorization: `Bearer ${KEY}` } : {}), 'Content-Type': 'application/json' }, body: JSON.stringify({ days }) });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || r.statusText);
+    render(await r.json());
+  } catch (e) { $('#m').innerHTML = `<div class="card w12 empty">Couldn't load stats: ${esc(e.message)}</div>`; }
+  $('#m').style.opacity = 1;
+}
+document.querySelector('.range').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; document.querySelectorAll('.range button').forEach((x) => x.classList.toggle('on', x === b)); load(+b.dataset.d); });
+const tip = $('#tip');
+document.addEventListener('pointermove', (e) => { const t = e.target.closest('[data-tip]'); if (!t) { tip.hidden = true; return; } tip.textContent = t.dataset.tip; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; tip.hidden = false; });
+load(30);
+</script>
+</body>
+</html>

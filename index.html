@@ -1531,6 +1531,7 @@ SCREENS.home = () => {
           ${has ? `<button class="link" style="color:#9FB3C8;padding:0" data-a="new">New career</button>` : ''}
           <span>Best career: ${brl(DB.best || 0)}</span>
           <span>Careers: ${DB.runs || 0}</span>
+          <span style="opacity:.6">v${APP_VERSION}</span>
         </div>
       </div>
     </div>
@@ -2266,6 +2267,7 @@ function finishCareer() {
   DB.game = null; save();
   G.screen = 'end'; render(); window.scrollTo(0, 0);
   millionReveal();
+  track('career_end', { money: Math.round(p.money), made: p.money >= GOAL, titles: p.titles, crowned: !!p.crowned, weekly: p.weekly || null, seconds: Math.round((p.tEnd - p.t0) / 1000) }, 8);
   submitCareer(p);
 }
 
@@ -2279,7 +2281,9 @@ function openRaffle() {
 }
 /* ---- actions ---- */
 function afterSettle(res) {
-  const p = G.run, unl = [];
+  const p = G.run, unl = [], lm = res.matches[res.matches.length - 1];
+  if (lm && lm.golden) track('golden', { shot: lm.shot, won: lm.won }, res.stop);
+  track('stop_done', { placement: res.placement, prize: res.prize, money: Math.round(res.moneyA), games: res.matches.length }, res.stop);
   if (res.placement === 'Champion' && !DB.balls.dalebol) { DB.balls.dalebol = 1; unl.push({ img: img('ball_dalebol'), name: 'Dalebol ball', sub: 'New ball unlocked' }); }
   grantAch(p).forEach((id) => { const a = ACH.find((x) => x.id === id); unl.push({ ic: a.ic, name: a.name, sub: 'Achievement · ' + a.desc }); });
   G.ui.unlocks = unl;
@@ -2311,7 +2315,7 @@ const ACT = {
   cball(v) { if (!DB.balls[v]) { toast(`${BALLS.find((b) => b.id === v).name}: ${BALLS.find((b) => b.id === v).lock}`); return; } G.cfg.ball = v; go('create'); },
   startrun() {
     const nm = $('#nm'); if (nm) G.cfg.name = nm.value;
-    G.run = newRun(G.cfg); sfx('tap'); openRaffle();
+    G.run = newRun(G.cfg); G.run.runId = Math.random().toString(36).slice(2, 14); track('career_start', { weekly: G.cfg.weekly || null, club: G.cfg.club, side: G.cfg.side, face: G.cfg.face }); sfx('tap'); openRaffle();
   },
   ppick(v) { G.ui.psel = v; sfx('tap'); go('partner', null, true); },
   respin() {
@@ -2323,6 +2327,7 @@ const ACT = {
     const p = G.run, c = G.ui.cands.find((x) => x.id === G.ui.psel) || G.ui.cands[0];
     if (c.fee > p.money && !c.keep) { toast(`Not enough money for ${c.first}`); return; }
     if (c.fee) money(p, -c.fee, 'costs');
+    track('partner_sign', { keep: !!c.keep, tier: c.tier, fee: c.fee, ovr: c.ovr, side_ok: c.side !== p.side });
     if (c.keep) { if (p.stop === 4) p.kept = true; } else { const n = { ...c }; delete n.keep; p.partner = n; p.streak = 0; }
     sfx('coin'); go('road', { pinFrom: p.stop > 0 ? p.stop - 1 : undefined });
   },
@@ -2332,6 +2337,7 @@ const ACT = {
   dotrain() {
     const p = G.run, ids = G.ui.tsel || [];
     if (trainPreview(p, ids).cost > p.money) return;
+    track('training', { picks: ids, energy: p.energy });
     const gain = applyTraining(p, ids); sfx('good');
     go('gains', { gain });
   },
@@ -2342,7 +2348,7 @@ const ACT = {
   rsel(v) { G.ui.rach.sel = v; sfx('tap'); go('rachao', null, true); },
   rplay() {
     const p = G.run, R = G.ui.rach, o = R.opts.find((x) => x.id === R.sel); if (!o || o.stake > p.money || R.out) return;
-    R.out = playRach(p, o); go('rachao');
+    R.out = playRach(p, o); track('rachao', { level: o.id, won: R.out.won, stake: o.stake }); go('rachao');
   },
   toplan() {
     withPromo(() => {
@@ -2354,6 +2360,7 @@ const ACT = {
   atk(v) { G.ui.atk = v; sfx('tap'); go('plan', null, true); },
   def(v) { G.ui.def = v; sfx('tap'); go('plan', null, true); },
   play() {
+    track('plan', { atk: G.ui.atk, def: G.ui.def, fav: G.run.rival && G.run.rival.fav });
     const p = G.run, res = playStop(p, { atk: G.ui.atk, def: G.ui.def });
     G.ui.unlocks = []; if (!res.pending) afterSettle(res);
     go('match', { res });
@@ -2374,6 +2381,7 @@ const ACT = {
     const inc = INCIDENTS.find((x) => x.id === G.ui.inc.id), yes = v === 'yes';
     if (yes && inc.cost && inc.cost(G.ui.inc.k) > p.money) return;
     G.ui.incOut = runIncident(p, G.ui.inc, yes);
+    track('incident', { id: G.ui.inc.id, yes });
     const o = G.ui.incOut; sfx(o.mDelta > 0 ? 'cash' : o.good === false ? 'bad' : 'tap'); if (o.mDelta > 0) confetti(1000, true);
     grantAch(p);
     go('incident');
@@ -2383,6 +2391,7 @@ const ACT = {
   promook() { hideOv(); const n = G.ui.promoNext; G.ui.promoNext = null; if (n) n(); else render(); },
   again() { const w = G.run && G.run.weekly; G.run = null; G.ui = {}; G.cfg.weekly = w && w === weekId() ? w : null; RNG = null; go('create'); },
   async share() {
+    track('share_click', { linked: !!G.ui.netId });
     const p = G.run, gr = grade(p), url = G.ui.netId ? shareUrl(G.ui.netId) : '', t = `Rei da Areia · ${gr.title} I turned ${brl(START_MONEY)} into ${brl(p.money)} in ${STOPS} stops${p.money >= GOAL ? ' — MILLIONAIRE!' : ''}${p.crowned ? ' and won the Liga Nacional' : ''}. Your turn!`;
     try { if (navigator.share) { await navigator.share(url ? { text: t, url } : { text: t }); return; } await navigator.clipboard.writeText(url ? `${t} ${url}` : t); toast(url ? 'Link copied' : 'Result copied'); } catch (e) { toast(url || t); }
   },
@@ -2400,10 +2409,12 @@ const NET = {
   key: (window.REI_CONFIG || {}).supabaseAnonKey || '',
   on() { return !!(this.url && this.key); },
 };
+/* new-style publishable keys (sb_publishable_…) go in `apikey` only; legacy JWT anon keys also as Bearer */
+const authHeaders = () => (NET.key.startsWith('eyJ') ? { apikey: NET.key, Authorization: `Bearer ${NET.key}` } : { apikey: NET.key });
 async function sbFetch(path, opts = {}) {
   const r = await fetch(`${NET.url}/rest/v1/${path}`, {
     method: opts.method || 'GET',
-    headers: { apikey: NET.key, Authorization: `Bearer ${NET.key}`, 'Content-Type': 'application/json', ...(opts.headers || {}) },
+    headers: { ...authHeaders(), 'Content-Type': 'application/json', ...(opts.headers || {}) },
     body: opts.body ? JSON.stringify(opts.body) : undefined,
   });
   if (!r.ok) { let m = r.statusText; try { m = (await r.json()).message || m; } catch (e) { /* not json */ } throw new Error(m); }
@@ -2471,6 +2482,7 @@ let SHARED = {};
 async function openShared(id) {
   if (G.screen !== 'shared' && G.screen !== 'home' && G.screen !== 'end' && G.run && !G.run.over) G.lastScreen = G.screen;
   if (G.screen !== 'shared') SHARED.back = G.screen === 'end' ? 'end' : 'home';
+  track('shared_view', { id });
   G.screen = 'shared'; SHARED.loading = true; SHARED.c = null; render(); window.scrollTo(0, 0);
   try {
     const rows = await sbFetch(`careers?id=eq.${encodeURIComponent(id)}&select=*`);
@@ -2497,12 +2509,35 @@ SCREENS.shared = () => {
   </section>`;
 };
 Object.assign(ACT, {
-  board(v) { openBoard(v === 'week' ? 'week' : 'all'); },
-  weekly() { hideOv(); G.run = null; G.ui = {}; G.cfg.weekly = weekId(); RNG = null; sfx('tap'); go('create'); },
+  board(v) { track('board_open', { tab: v || 'all' }); openBoard(v === 'week' ? 'week' : 'all'); },
+  weekly() { track('weekly_open'); hideOv(); G.run = null; G.ui = {}; G.cfg.weekly = weekId(); RNG = null; sfx('tap'); go('create'); },
   resubmit() { G.ui.netState = null; submitCareer(G.run); },
   viewc(id) { hideOv(); history.pushState(null, '', `?c=${id}`); openShared(id); },
   leaveshare() { history.replaceState(null, '', location.pathname); G.screen = SHARED.back === 'end' && G.run && G.run.over ? 'end' : 'home'; render(); window.scrollTo(0, 0); },
 });
+
+
+/* ---- analytics: anonymous gameplay events → Supabase `events` (insert-only, no cookies) ---- */
+const APP_VERSION = '1.1.0';
+const AN = { q: [], sid: Math.random().toString(36).slice(2, 12), vid: null, t: null };
+try { AN.vid = localStorage.getItem('rei.vid') || (localStorage.setItem('rei.vid', Math.random().toString(36).slice(2, 14)), localStorage.getItem('rei.vid')); } catch (e) { /* private mode */ }
+AN.vid = AN.vid || AN.sid;
+const DEVICE = matchMedia('(pointer:coarse)').matches ? (innerWidth < 700 ? 'phone' : 'tablet') : 'desktop';
+function track(name, props = {}, stop = null) {
+  if (!NET.on()) return;
+  const p = G.run && !G.run.over ? G.run : null;
+  if (p && !p.runId) p.runId = Math.random().toString(36).slice(2, 14);
+  AN.q.push({ visitor: AN.vid, session: AN.sid, run: (G.run && G.run.runId) || null, name, stop: stop ?? (p ? Math.min(p.stop, 8) : null), props, version: APP_VERSION, device: DEVICE });
+  if (AN.q.length >= 20) flushEvents();
+  else if (!AN.t) AN.t = setTimeout(() => { AN.t = null; flushEvents(); }, 3000);
+}
+function flushEvents(keep) {
+  if (!AN.q.length || !NET.on()) return;
+  const batch = AN.q.splice(0, 50);
+  fetch(`${NET.url}/rest/v1/events`, { method: 'POST', keepalive: !!keep, headers: { ...authHeaders(), 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(batch) }).catch(() => {});
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushEvents(true); });
+addEventListener('pagehide', () => flushEvents(true));
 
 /* ---- boot: a run that was mid-match resumes on its result ---- */
 (function boot() {
@@ -2511,6 +2546,8 @@ Object.assign(ACT, {
   if (G.run && G.screen !== 'home') { G.lastScreen = G.screen; G.screen = 'home'; }
   if (!G.ui) G.ui = {};
   const shared = new URLSearchParams(location.search).get('c');
+  let ref = ''; try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) { /* no referrer */ }
+  track('visit', { ref, shared: !!shared, standalone: matchMedia('(display-mode: standalone)').matches });
   if (shared && NET.on() && /^[0-9a-f-]{36}$/i.test(shared)) { openShared(shared); return; }
   render();
 })();
