@@ -11,7 +11,7 @@ Plain static site (one `index.html`, no build step) + a Supabase database for th
 ## Setup
 
 ### 1. Supabase (once)
-1. Open your project → **SQL Editor** → paste `supabase/schema.sql` → **Run**.
+1. Open your project → **SQL Editor** → paste `schema.sql` → **Run**.
 2. **Project Settings → API**: copy the **Project URL** and the **anon public** key.
 
 ### 2. Config
@@ -35,7 +35,7 @@ The game is live at `https://<user>.github.io/<repo>/` within a minute. A custom
 |---|---|
 | `index.html` | The whole game (art, sounds and code embedded) |
 | `config.js` | Supabase URL + anon key (empty = offline mode) |
-| `supabase/schema.sql` | Tables, security rules, `submit_career()`, the `leaderboard` view, analytics `events` + `stats_overview()` |
+| `schema.sql` | Tables, security rules, `submit_career()`, the `leaderboard` view, analytics `events` + `stats_overview()` |
 | `og.jpg`, `icon.png` | Link preview image and home-screen icon |
 | `stats.html` | Analytics dashboard (not linked from the game) |
 | `deploy.sh`, `CHANGELOG.md` | Release helper and version history |

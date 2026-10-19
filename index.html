@@ -666,6 +666,94 @@ img { display: block; max-width: 100%; }
 .sh-head { display: flex; gap: 12px; align-items: center; }
 .sh-head img { width: 84px; height: 84px; border-radius: 18px; object-fit: cover; object-position: 50% 18%; border: 3px solid var(--sun); flex: none; }
 .sh-head > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+/* ===== v12: whole screen above the fold on a regular phone (~390x664 visible in Safari) ===== */
+.hud { padding-top: calc(8px + env(safe-area-inset-top)); padding-bottom: 8px; }
+.pad { padding-top: 10px; gap: 10px; }
+.foot { padding: 8px 16px calc(10px + env(safe-area-inset-bottom)); }
+.btn { min-height: 52px; font-size: 21px; box-shadow: 0 5px 0 var(--navy); }
+.btn.dark { box-shadow: 0 5px 0 #000; }
+.btn.light { box-shadow: 0 5px 0 #fff; }
+.foot.row2 .respin { min-height: 52px; }
+/* create: card beside name + shirt */
+.stage.cmp { height: auto; padding: calc(10px + env(safe-area-inset-top)) 16px 10px; }
+.stage-row { position: relative; display: flex; gap: 12px; }
+.stage-left { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.stage.cmp .stage-head { position: static; gap: 10px; flex-wrap: wrap; }
+.stage.cmp .field { color: #fff; gap: 3px; font-size: 10px; }
+.stage.cmp .field input { height: 42px; font-size: 20px; }
+.stage.cmp .stepper { height: 42px; align-self: flex-start; color: var(--navy); }
+.stage.cmp .stepper button { height: 36px; }
+.stage.cmp .pcard { position: relative; left: auto; top: auto; margin: 0; flex: none; width: 132px; height: 152px; box-shadow: 0 10px 28px rgba(0,0,0,.5); }
+.stage.cmp .pcard-num b { font-size: 24px; }
+.stage.cmp .pcard-num span { font-size: 7px; }
+.stage.cmp .pcard-side { top: 40px; left: 7px; padding: 2px 4px; font-size: 7px; }
+.stage.cmp .pcard-ball { top: 7px; right: 7px; width: 30px; height: 30px; }
+.stage.cmp .pcard-shade { height: 70px; }
+.stage.cmp .pcard-foot { left: 8px; right: 8px; bottom: 7px; gap: 4px; }
+.stage.cmp .pcard-name { font-size: 20px; max-width: 92px; }
+.stage.cmp .pcard-sub { font-size: 8px; letter-spacing: .5px; }
+.stage.cmp .pcard-foot svg { flex: none; width: 24px; height: 24px; }
+.create-pad { gap: 8px; }
+.create-pad .pick.face { aspect-ratio: auto; height: 40px; }
+.create-pad .pick.shirt { height: 36px; }
+.create-pad .pick.shirt svg { max-height: 30px; }
+.create-pad .pick.ball { height: 42px; }
+.create-pad .pick.ball img { width: 34px; height: 34px; }
+.create-pad .grid6, .create-pad .grid5 { gap: 5px; }
+.create-pad .sidepick { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.create-pad .sidepick button { padding: 5px 8px; min-width: 0; }
+.create-pad .sidepick svg { flex: none; width: 44px; height: 28px; }
+.create-pad .sidepick b { font-size: 15px; }
+.create-pad .sidepick em { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.create-pad .sidepick button > span { min-width: 0; }
+/* plan */
+.plan-pad { gap: 6px !important; }
+.plan-pad .scr-head h2 { font-size: 22px !important; }
+.plan-pad > .h-game { font-size: 15px !important; margin-top: 2px; }
+.opt.sm { padding: 5px 8px; gap: 2px; }
+.opt.sm .edge { font-size: 17px; }
+.opt.sm .nm { font-size: 13px; }
+.rival.sm { padding: 6px 10px; }
+.chancebox.sm { padding: 6px 12px; }
+.chancebox.sm .big { font-size: 24px; }
+/* partner raffle */
+.pcardrow { padding: 6px 10px; }
+.pcardrow .facebox { width: 58px; height: 58px; }
+/* beach practice result */
+.rach-res { padding: 10px 12px; gap: 6px; }
+.rach-sc b { font-size: 36px; }
+.rach-v { padding: 8px 12px; gap: 2px; }
+/* between stops */
+.inc-art { height: 104px; }
+.inc-art svg { width: 72px; height: 72px; }
+.inc-body { padding: 10px 14px 12px; gap: 6px; }
+.inc-body h2 { font-size: 24px !important; }
+.inc-body p { font-size: 14px; line-height: 1.35; }
+/* gains */
+.gains-card { padding: 10px 12px; gap: 7px !important; }
+/* popups */
+#ov { padding-top: 70px; padding-bottom: 16px; }
+.pop { padding-top: 52px; gap: 6px; }
+.pop.noicon { padding-top: 18px; }
+.pop .hero-ic { top: -56px; width: 96px; height: 104px; margin-left: -48px; }
+.pop .big { font-size: 38px; }
+.rew { padding: 6px 4px; gap: 1px; }
+.rew svg { width: 20px; height: 20px; }
+.rew b { font-size: 17px; }
+.unlocks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: 100%; }
+.unlocks .unlock:only-child { grid-column: 1 / -1; }
+.unlocks .unlock span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.unlocks .unlock > div { min-width: 0; }
+.unlock { padding: 5px 8px; gap: 6px; border-width: 2px; border-radius: 14px; box-shadow: 0 3px 0 var(--navy); }
+.unlock img, .unlock svg { width: 28px; height: 28px; }
+.unlock b { font-size: 13px; line-height: 1.1; }
+.unlock span { font-size: 10px; }
+.pop .mae { padding: 6px 10px; }
+.pop .mae .av { width: 30px; height: 30px; font-size: 11px; }
+.pop .mae span { font-size: 12px; }
+.whybox { padding: 7px 10px; font-size: 12px; }
+.pop .mm { padding: 8px 10px 16px; }
 </style>
 </head>
 <body>
@@ -1456,7 +1544,7 @@ const medalSvg = (kind) => {
   const n = kind === 'gold' ? 1 : kind === 'silver' ? 2 : 3, id = 'md' + UID++;
   return `<svg class="hero-ic" viewBox="0 0 140 150" role="img" aria-label="${kind} medal"><defs><radialGradient id="${id}" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="${g[0]}"/><stop offset=".55" stop-color="${g[1]}"/><stop offset="1" stop-color="${g[2]}"/></radialGradient></defs><path d="M40 0 H62 L76 52 H54 Z" fill="#1E5BD8" stroke="#0B2545" stroke-width="3" stroke-linejoin="round"/><path d="M100 0 H78 L64 52 H86 Z" fill="#FF7A1A" stroke="#0B2545" stroke-width="3" stroke-linejoin="round"/><circle cx="70" cy="96" r="48" fill="url(#${id})" stroke="#0B2545" stroke-width="4"/><circle cx="70" cy="96" r="36" fill="none" stroke="#FFFFFF" stroke-width="3" opacity=".7"/><text x="70" y="114" text-anchor="middle" font-family="Lilita One, sans-serif" font-size="50" fill="#0B2545">${n}</text></svg>`;
 };
-const trophySvg = () => { const id = 'tg' + UID++; return `<svg class="hero-ic" viewBox="0 0 180 210" style="width:150px;height:170px;margin-left:-75px;top:-96px" role="img" aria-label="Gold trophy"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFE38A"/><stop offset=".45" stop-color="#FFC400"/><stop offset="1" stop-color="#C98A00"/></linearGradient></defs><path d="M40 30 H14 Q10 78 56 88" fill="none" stroke="#0B2545" stroke-width="12" stroke-linecap="round"/><path d="M40 30 H14 Q10 78 56 88" fill="none" stroke="#FFC400" stroke-width="6" stroke-linecap="round"/><path d="M140 30 H166 Q170 78 124 88" fill="none" stroke="#0B2545" stroke-width="12" stroke-linecap="round"/><path d="M140 30 H166 Q170 78 124 88" fill="none" stroke="#FFC400" stroke-width="6" stroke-linecap="round"/><path d="M36 14 H144 V48 Q144 110 90 120 Q36 110 36 48 Z" fill="url(#${id})" stroke="#0B2545" stroke-width="4" stroke-linejoin="round"/><path d="M78 120 H102 V150 H78 Z" fill="url(#${id})" stroke="#0B2545" stroke-width="4"/><path d="M52 150 H128 L134 176 H46 Z" fill="url(#${id})" stroke="#0B2545" stroke-width="4" stroke-linejoin="round"/><rect x="38" y="176" width="104" height="22" rx="4" fill="#0B2545"/><path d="M58 30 Q58 80 78 100" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".55"/><path d="M90 42 L96 56 L111 57 L99 66 L103 81 L90 72 L77 81 L81 66 L69 57 L84 56 Z" fill="#FFFFFF" stroke="#0B2545" stroke-width="2.5" stroke-linejoin="round"/></svg>`; };
+const trophySvg = () => { const id = 'tg' + UID++; return `<svg class="hero-ic" viewBox="0 0 180 210" style="width:104px;height:121px;margin-left:-52px;top:-70px" role="img" aria-label="Gold trophy"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFE38A"/><stop offset=".45" stop-color="#FFC400"/><stop offset="1" stop-color="#C98A00"/></linearGradient></defs><path d="M40 30 H14 Q10 78 56 88" fill="none" stroke="#0B2545" stroke-width="12" stroke-linecap="round"/><path d="M40 30 H14 Q10 78 56 88" fill="none" stroke="#FFC400" stroke-width="6" stroke-linecap="round"/><path d="M140 30 H166 Q170 78 124 88" fill="none" stroke="#0B2545" stroke-width="12" stroke-linecap="round"/><path d="M140 30 H166 Q170 78 124 88" fill="none" stroke="#FFC400" stroke-width="6" stroke-linecap="round"/><path d="M36 14 H144 V48 Q144 110 90 120 Q36 110 36 48 Z" fill="url(#${id})" stroke="#0B2545" stroke-width="4" stroke-linejoin="round"/><path d="M78 120 H102 V150 H78 Z" fill="url(#${id})" stroke="#0B2545" stroke-width="4"/><path d="M52 150 H128 L134 176 H46 Z" fill="url(#${id})" stroke="#0B2545" stroke-width="4" stroke-linejoin="round"/><rect x="38" y="176" width="104" height="22" rx="4" fill="#0B2545"/><path d="M58 30 Q58 80 78 100" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity=".55"/><path d="M90 42 L96 56 L111 57 L99 66 L103 81 L90 72 L77 81 L81 66 L69 57 L84 56 Z" fill="#FFFFFF" stroke="#0B2545" stroke-width="2.5" stroke-linejoin="round"/></svg>`; };
 const bagSvg = (txt) => `<svg class="hero-ic" viewBox="0 0 140 150" role="img" aria-label="Money bag"><path d="M52 22 L44 6 H96 L88 22 Z" fill="#B57F00" stroke="#0B2545" stroke-width="4" stroke-linejoin="round"/><path d="M50 24 H90 Q138 64 126 112 Q118 146 70 146 Q22 146 14 112 Q2 64 50 24 Z" fill="#FFC400" stroke="#0B2545" stroke-width="4" stroke-linejoin="round"/><path d="M48 24 H92" stroke="#0B2545" stroke-width="6"/><text x="70" y="108" text-anchor="middle" font-family="Lilita One, sans-serif" font-size="${txt.length > 3 ? 34 : 42}" fill="#0B2545">${txt}</text></svg>`;
 
 /* ---- the million meter: everywhere you look, the goal is there ---- */
@@ -1541,9 +1629,13 @@ SCREENS.home = () => {
 SCREENS.create = () => {
   const c = G.cfg, club = clubById(c.club), b = BALLS.find((x) => x.id === c.ball);
   return `<section class="scr">
-    <div class="stage">
+    <div class="stage cmp">
       <img class="bg" src="${img('hero')}" alt="">
-      <div class="stage-head"><button class="iconbtn" data-a="home" aria-label="Back">${ICON.back}</button><h2 class="h-display" style="font-size:26px">Your player</h2>${c.weekly ? `<span class="chip" style="margin-left:auto;background:var(--sun);color:var(--navy)">Weekly ${esc(c.weekly)}</span>` : ''}</div>
+      <div class="stage-row"><div class="stage-left">
+      <div class="stage-head"><button class="iconbtn" data-a="home" aria-label="Back">${ICON.back}</button><h2 class="h-display" style="font-size:24px">Your player</h2>${c.weekly ? `<span class="chip" style="background:var(--sun);color:var(--navy)">Weekly ${esc(c.weekly)}</span>` : ''}</div>
+        <label class="field">NAME<input id="nm" value="${esc(c.name)}" maxlength="14" autocomplete="off" spellcheck="false"></label>
+        <div class="field">SHIRT #<div class="stepper"><button data-a="num" data-v="-1" aria-label="Lower number">−</button><span class="num" id="num">${c.num}</span><button data-a="num" data-v="1" aria-label="Higher number">+</button></div></div>
+      </div>
       <div class="pcard"><div class="pcard-in">
         <img class="face" src="${face(c.face)}" alt="Your player">
         <div class="pcard-shade"></div>
@@ -1552,14 +1644,11 @@ SCREENS.create = () => {
         <img class="pcard-ball" src="${img('ball_' + b.id)}" alt="">
         <div class="pcard-foot"><div style="min-width:0"><div class="pcard-name" id="pc-name">${esc(c.name || 'Zé')}</div><div class="pcard-sub">${esc(club.name)} · Aprendiz</div></div>${shirt(club, 34, '#FFFFFF')}</div>
       </div></div>
+      </div>
     </div>
-    <div class="pad">
+    <div class="pad create-pad">
       <div style="display:flex;flex-direction:column;gap:6px"><span class="eyebrow">Your face</span>
         <div class="grid6">${PLAYER_FACES.map((f, i) => `<button class="pick face ${f === c.face ? 'on' : ''}" data-a="cface" data-v="${f}" aria-label="Face ${i + 1}" aria-pressed="${f === c.face}"><img src="${face(f)}" alt=""></button>`).join('')}</div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:flex-end">
-        <label class="field" style="flex:1">NAME<input id="nm" value="${esc(c.name)}" maxlength="14" autocomplete="off" spellcheck="false"></label>
-        <div class="field">SHIRT #<div class="stepper"><button data-a="num" data-v="-1" aria-label="Lower number">−</button><span class="num" id="num">${c.num}</span><button data-a="num" data-v="1" aria-label="Higher number">+</button></div></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
         <div class="rowhead"><span class="eyebrow">Favourite side</span><span style="font-size:12px;font-weight:800;color:var(--sea)">Partners on the ${c.side === 'L' ? 'right' : 'left'} fit you best</span></div>
@@ -1734,7 +1823,7 @@ SCREENS.gains = () => {
         <div class="ring-center"><span style="font-size:11px;font-weight:900;letter-spacing:1.5px;color:var(--mist)">OVR</span><span class="h-game num" style="font-size:62px" id="ring-num" data-from="${Math.round(oB)}" data-to="${Math.round(oA)}">${Math.round(oB)}</span><span style="font-size:13px;font-weight:900;color:var(--mist)">was ${Math.round(oB)}</span></div>
         ${delta > 0 ? `<div class="ring-plus">+${delta}</div>` : ''}
       </div>
-      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <div class="card gains-card" style="display:flex;flex-direction:column;gap:10px">
         <div class="rowhead"><span class="h-game" style="font-size:18px">WHAT CHANGED</span><span style="font-size:12px;font-weight:900;color:${g.enA >= g.enB ? 'var(--green-ink)' : '#C2185B'}">Fitness ${g.enB} → ${g.enA}</span></div>
         ${rows.map((r) => `<div class="srow ${Math.abs(r.raw) > 0.05 ? '' : 'flat'}"><span class="n">${SK_LABEL[r.k].toUpperCase()}</span><div class="bar"><i style="width:${(Math.min(r.was, r.now) / 80 * 100).toFixed(1)}%;background:${SK_KIND[r.k] === 'atk' ? 'var(--orange)' : SK_KIND[r.k] === 'def' ? '#5B7BD6' : '#2FA36A'}"></i><i class="gain" data-w="${(Math.max(0, r.raw) / 80 * 100).toFixed(1)}%"></i></div><span class="v num">${Math.round(r.now)}</span><span class="d" style="${r.dd > 0 ? 'background:var(--green)' : r.raw < 0 ? 'color:#C2185B' : 'color:var(--mist)'}">${r.dd > 0 ? '+' + r.dd : r.raw < -0.05 ? Math.round(r.raw) || '−1' : '–'}</span></div>`).join('')}
         ${g.tacs.map((t) => `<div style="display:flex;gap:8px;align-items:center;padding-top:4px;border-top:2px dashed var(--ice)"><span class="tag t-${isDef(t) ? 'def' : 'atk'}">TACTIC</span><span style="font-size:13px;font-weight:800">${esc(TAC_NAME[t])} now Lv ${p.mastery[t]}</span></div>`).join('')}
@@ -1769,7 +1858,7 @@ SCREENS.rachao = () => {
         <h2 class="h-game outlined" style="font-size:28px">BEACH PRACTICE</h2>
         <span style="font-size:12px;font-weight:800;color:var(--navy)">Play the locals for cash. You get sharper either way.</span>
       </div>
-      ${R.opts.map(card).join('')}
+      ${(out ? R.opts.filter((x) => x.id === out.id) : R.opts).map(card).join('')}
       ${out ? `<div class="rach-res ${out.won ? 'won' : 'lost'}" id="rres">
           <div class="rach-sc"><span>YOU</span><b class="num" id="rsc">0–0</b><span>THEM</span></div>
           <div class="rach-v" id="rv" hidden><b class="h-game">${out.won ? 'YOU WON THE RACHÃO!' : 'THEY TOOK YOUR MONEY'}</b><span class="h-game num" style="font-size:24px;color:${out.won ? 'var(--green-ink)' : '#C2185B'}">${sbrl(out.delta)}</span><span style="font-size:12px;font-weight:800">OVR ${Math.round(out.ovrB)} → ${Math.round(out.ovrA)} · fitness ${out.enB} → ${out.enA}${out.partnerA > out.partnerB ? ` · ${esc(p.partner.first)} ${out.partnerB} → ${out.partnerA}` : ''}</span></div>
@@ -1799,7 +1888,7 @@ SCREENS.plan = () => {
   const od = planOdds(p, p.partner, ev, rv, G.ui.atk, G.ui.def), [sk, skT] = threat(p, rv);
   return `<section class="scr">
     ${hud(p)}
-    <div class="pad" style="gap:8px">
+    <div class="pad plan-pad" style="gap:8px">
       <div class="scr-head"><div><span class="chip navy">${esc(ev.name.split(' · ').pop())}</span><h2 class="h-game" style="font-size:26px">GAME PLAN</h2></div>
         <div class="fmt">${f.map((r, i) => `<span class="${r.g ? 'g' : ''} ${r.id === 'F' ? 'f' : ''}">${r.g ? 'G' + r.g : r.id}</span>${i < f.length - 1 ? '<i></i>' : ''}`).join('')}</div></div>
       <div class="rival sm">
@@ -1943,9 +2032,9 @@ function render() {
   AFTER[G.screen] && AFTER[G.screen]();
 }
 function go(screen, ui, keep) {
-  const y = window.scrollY;
+  const y = window.scrollY, same = screen === G.screen;
   G.screen = screen; if (ui) G.ui = Object.assign(G.ui || {}, ui);
-  persist(); render(); window.scrollTo(0, keep ? y : 0);
+  persist(); render(); window.scrollTo(0, keep || (same && keep !== false) ? y : 0);
 }
 function showOv(html, cls = '', behind = '') {
   const o = $('#ov'); o.innerHTML = `${behind}<div class="pop ${cls}" role="dialog" aria-modal="true">${html}</div>`; o.hidden = false;
@@ -2116,20 +2205,20 @@ function moneyLines(r) {
 }
 function unlockCards(list) {
   const more = list.length > 2 ? `<span style="font-size:12px;font-weight:900;color:var(--mist)">+${list.length - 2} more in your trophy cabinet</span>` : '';
-  return list.slice(0, 2).map((u) => `<div class="unlock">${u.img ? `<img src="${u.img}" alt="">` : achIcon(u.ic, 46)}<div><b>${esc(u.name)}</b><span>${esc(u.sub)}</span></div></div>`).join('') + more;
+  return list.length ? `<div class="unlocks">${list.slice(0, 2).map((u) => `<div class="unlock">${u.img ? `<img src="${u.img}" alt="">` : achIcon(u.ic, 46)}<div><b>${esc(u.name)}</b><span>${esc(u.sub)}</span></div></div>`).join('')}</div>${more}` : '';
 }
 function resultPopup() {
   const r = G.ui.res, ev = EVENTS[r.stop], unl = G.ui.unlocks || [];
   const last = r.stop === STOPS - 1, cta = last ? 'THE BIG COUNT ›' : r.placement === 'Champion' ? 'VAMOS!' : 'NEXT';
-  const logoChip = `<span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:900;letter-spacing:1.2px;color:var(--sea)"><img src="${img(ev.logo)}" alt="" style="width:58px;height:44px;object-fit:cover;border-radius:8px;border:2px solid var(--navy)">${esc(ev.name.toUpperCase())}</span>`;
+  const logoChip = `<span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:900;letter-spacing:1.2px;color:var(--sea)"><img src="${img(ev.logo)}" alt="" style="width:44px;height:32px;object-fit:cover;border-radius:7px;border:2px solid var(--navy)">${esc(ev.name.toUpperCase())}</span>`;
   const lastM = r.matches[r.matches.length - 1];
   if (r.placement === 'Champion') {
     sfx('win'); confetti(3200);
     showOv(`${trophySvg()}
       ${logoChip}
-      <div class="big" style="font-size:52px">${r.crownNow ? 'CHAMPION OF BRAZIL!' : r.worldNow ? 'WORLD CHAMPIONS!' : 'CAMPEÕES!'}</div>
+      <div class="big" style="font-size:${r.crownNow || r.worldNow ? 34 : 42}px">${r.crownNow ? 'CHAMPION OF BRAZIL!' : r.worldNow ? 'WORLD CHAMPIONS!' : 'CAMPEÕES!'}</div>
       <span style="font-size:13px;font-weight:900">You beat the most feared duo: ${esc(r.rivalName)}</span>
-      <span class="h-game num" style="display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:999px;background:#fff;border:3px solid var(--navy);font-size:30px">${ICON.coin(30)}${sbrl(r.prize)}</span>
+      <span class="h-game num" style="display:inline-flex;align-items:center;gap:8px;padding:3px 16px;border-radius:999px;background:#fff;border:3px solid var(--navy);font-size:24px">${ICON.coin(24)}${sbrl(r.prize)}</span>
       ${rewardTiles(r)}
       ${moneyLines(r)}
       ${unlockCards((r.sponsorNew ? [{ ic: 'coin', name: 'Sponsor signed', sub: 'Pays you 5% of the prize at every stop' }] : []).concat(unl))}
@@ -2518,7 +2607,7 @@ Object.assign(ACT, {
 
 
 /* ---- analytics: anonymous gameplay events → Supabase `events` (insert-only, no cookies) ---- */
-const APP_VERSION = '1.1.0';
+const APP_VERSION = '1.2.0';
 const AN = { q: [], sid: Math.random().toString(36).slice(2, 12), vid: null, t: null };
 try { AN.vid = localStorage.getItem('rei.vid') || (localStorage.setItem('rei.vid', Math.random().toString(36).slice(2, 14)), localStorage.getItem('rei.vid')); } catch (e) { /* private mode */ }
 AN.vid = AN.vid || AN.sid;
