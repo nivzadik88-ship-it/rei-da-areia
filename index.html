@@ -893,6 +893,25 @@ img { display: block; max-width: 100%; }
 .rmeta b { font-family: var(--game); font-weight: 400; font-size: 15px; color: var(--navy); }
 .rmeta .en { display: inline-flex; align-items: center; gap: 2px; padding: 0 5px; border-radius: 6px; background: #FFE3E9; color: #A3123E; font-weight: 900; }
 .rew-f { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 2px solid var(--navy); }
+
+/* ===== v13b ===== */
+.road { flex: none; }
+.duo-row .skmini { flex: 1; min-width: 0; }
+.tt .fx b { font-size: 12px; }
+.tch { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 6px; }
+.tch > span { font-size: 9px; font-weight: 900; letter-spacing: .8px; color: var(--mist); }
+.tch > b { font-size: 12px; font-weight: 900; white-space: nowrap; }
+.prow-ic > span.ok, .prow-ic > span.bad { padding-left: 6px; }
+.side-note b { font-family: var(--game); font-weight: 400; font-size: 16px; color: var(--navy); }
+.pc-t.ok { background: var(--both-bg); } .pc-t.bad { background: #FFE3E9; }
+.pc-t .sd { font-size: 26px; line-height: 1; } .pc-t.ok .sd { color: var(--green-ink); } .pc-t.bad .sd { color: #C2185B; }
+.sg-team { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 8px; border-radius: 16px; background: var(--navy); color: #fff; }
+.sg-team > i { font-style: normal; font-family: var(--game); font-size: 22px; color: var(--sun); }
+.sg-f { position: relative; }
+.sg-f img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 2px solid #fff; display: block; }
+.sg-f b { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); padding: 0 5px; border-radius: 7px; background: #fff; color: var(--navy); font-family: var(--game); font-weight: 400; font-size: 12px; line-height: 15px; }
+.sg-t { display: flex; flex-direction: column; align-items: center; line-height: 1; font-size: 9px; font-weight: 900; letter-spacing: 1px; color: var(--sun); }
+.sg-t b { font-family: var(--game); font-weight: 400; font-size: 30px; color: #fff; }
 </style>
 </head>
 <body>
@@ -1728,14 +1747,16 @@ const maeSays = (k) => uiPick(MAE[k]);
 
 /* ================= v13 visual helpers ================= */
 /* skill = body part on a little stick figure; the trained part lights up */
-function skIcon(k, s = 22, hi = '#FF7A1A', col = '#0B2545') {
-  const c = (part) => (part === k || (k === 'shark' && part === 'leg') ? hi : col);
-  const fig = `<circle cx="12" cy="4.6" r="3" fill="${k === 'head' ? hi : 'none'}" stroke="${c('head')}" stroke-width="2"/>`
-    + `<path d="M12 8 V15" stroke="${c('chest')}" stroke-width="${k === 'chest' ? 5 : 2.2}" stroke-linecap="round"/>`
-    + `<path d="M12 10 L6.5 13.5 M12 10 L17.5 13.5" stroke="${c('shoulder')}" stroke-width="2.2" stroke-linecap="round"/>`
-    + (k === 'shoulder' ? `<circle cx="9" cy="9.6" r="2.3" fill="${hi}"/><circle cx="15" cy="9.6" r="2.3" fill="${hi}"/>` : '')
-    + `<path d="M12 15 L8 22 M12 15 L16 22" stroke="${c('leg')}" stroke-width="${k === 'leg' || k === 'shark' ? 3.2 : 2.2}" stroke-linecap="round"/>`;
-  return `<svg class="ski" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" aria-hidden="true">${k === 'shark' ? `<g transform="rotate(160 12 12)">${fig}</g><circle cx="17.5" cy="3" r="2.6" fill="#FFC400" stroke="${col}" stroke-width="1.2"/>` : fig}</svg>`;
+const SK_IC = {
+  shark: '<path d="M2 18.5 Q8.5 17.5 12.5 4 Q14.5 12.5 22 18.5 Z" fill="#FF7A1A"/><path d="M2 21.5 Q5 19.8 8 21.5 T14 21.5 T20 21.5" fill="none" stroke-width="1.8"/>',
+  head: '<circle cx="11" cy="14" r="7" fill="#FF7A1A"/><circle cx="17.5" cy="4.5" r="3.2" fill="#FFC400"/>',
+  shoulder: '<circle cx="12" cy="7" r="3.6" fill="none" stroke-width="1.8"/><path d="M3 21 Q3 12.5 12 12.5 Q21 12.5 21 21" fill="#FF7A1A"/><circle cx="19.5" cy="6.5" r="3" fill="#FFC400"/>',
+  chest: '<path d="M7.5 3.5 L3 7.5 L5.2 11.5 L7.5 10.4 V21 H16.5 V10.4 L18.8 11.5 L21 7.5 L16.5 3.5 Q12 6.5 7.5 3.5 Z" fill="#FF7A1A"/><circle cx="12" cy="13.5" r="3" fill="#FFC400"/>',
+  leg: '<path d="M8 2.5 L10.5 11.5 L6.5 19.5 H13" fill="none" stroke="#0B2545" stroke-width="6.4"/><path d="M8 2.5 L10.5 11.5 L6.5 19.5 H13" fill="none" stroke="#FF7A1A" stroke-width="3.6"/><circle cx="18.5" cy="18" r="3.2" fill="#FFC400"/>',
+  all: '<path d="M12 2.5 L14.8 8.6 L21.4 9.3 L16.4 13.8 L17.9 20.4 L12 17 L6.1 20.4 L7.6 13.8 L2.6 9.3 L9.2 8.6 Z" fill="#22C46E"/>',
+};
+function skIcon(k, s = 22) {
+  return `<svg class="ski" width="${s}" height="${s}" viewBox="0 0 24 24" stroke="#0B2545" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${SK_IC[k] || SK_IC.all}</svg>`;
 }
 const TRAIT_IC = {
   calm: '<path d="M3 11 Q7.5 7 12 11 T21 11 M3 17 Q7.5 13 12 17 T21 17" stroke="#0A72C2" stroke-width="2.6"/>',
@@ -1764,6 +1785,26 @@ function mate(p, o = {}) {
     ${hearts(Math.min(6, chemOf(p) + (o.chem || 0)), o.hs || 11)}
   </button>`;
 }
+function pcTiles(p, m) {
+  const tw = TRAIT_WORD[m.trait] || ['', ''], fits = m.side !== p.side;
+  return `<div class="pc-grid">
+      <div class="pc-t"><b class="num">${m.ovr}</b><span>OVR</span></div>
+      <div class="pc-t">${skIcon(m.spec, 30)}<span>${esc(SPEC_WORD[m.spec])}</span><em>his best shot</em></div>
+      <div class="pc-t">${trIcon(m.trait, 28)}<span>${esc(tw[0])}</span><em>${esc(tw[1])}</em></div>
+      <div class="pc-t ${fits ? 'ok' : 'bad'}"><b class="sd">${fits ? '✓' : '✗'}</b><span>Plays ${sideWord(m.side).toLowerCase()}</span><em>${fits ? 'fits you' : 'same as you'}</em></div>
+    </div>`;
+}
+/* celebrate a new signing: who he is, in 4 tiles + what the duo is worth */
+function signPopup() {
+  const p = G.run, m = p.partner, t = Math.round(teamParts(p, m, EVENTS[Math.min(p.stop, STOPS - 1)]).total);
+  sfx('good'); confetti(1600);
+  showOv(`<img class="pc-face" src="${pimg(m)}" alt="">
+    <span class="chip green">New partner!</span>
+    <div class="big" style="font-size:32px">${esc(m.first)} "${esc(m.nick)}"</div>
+    ${pcTiles(p, m)}
+    <div class="sg-team"><span class="sg-f"><img src="${face(p.face)}" alt="You"><b class="num">${ovr(p)}</b></span><i>+</i><span class="sg-f"><img src="${pimg(m)}" alt=""><b class="num">${m.ovr}</b></span><i>=</i><span class="sg-t"><b class="num">${t}</b>TEAM</span></div>
+    <button class="btn" data-a="closeov">VAMOS!</button>`, 'pcpop', '<div class="champ-rays promo-rays"></div>');
+}
 function partnerCard() {
   const p = G.run, m = p && p.partner; if (!m) return;
   const h = (m.hist && m.hist.length ? m.hist.slice() : [m.ovr]); if (h[h.length - 1] !== m.ovr) h.push(m.ovr);
@@ -1774,12 +1815,7 @@ function partnerCard() {
   showOv(`<img class="pc-face" src="${pimg(m)}" alt="">
     <span class="chip navy">${esc(TIER_LABEL[m.tier])}</span>
     <div class="big" style="font-size:30px">${esc(m.first)} "${esc(m.nick)}"</div>
-    <div class="pc-grid">
-      <div class="pc-t"><b class="num">${m.ovr}</b><span>OVR</span></div>
-      <div class="pc-t">${skIcon(m.spec, 30)}<span>${esc(SPEC_WORD[m.spec])}</span></div>
-      <div class="pc-t">${trIcon(m.trait, 28)}<span>${esc(tw[0])}</span><em>${esc(tw[1])}</em></div>
-      <div class="pc-t">${sideCourt(m.side, p.side, 36)}<span>${sideWord(m.side)}</span><em>${m.side !== p.side ? 'fits you' : 'same as you'}</em></div>
-    </div>
+    ${pcTiles(p, m)}
     <div class="pc-chem">${hearts(chemOf(p), 22)}<span>${stops > 0 ? `${stops} stop${stops > 1 ? 's' : ''} together` : 'New partner'}</span></div>
     ${h.length > 1 ? `<div class="pc-spark"><svg width="100%" viewBox="0 0 ${W} ${H}" role="img" aria-label="Overall ${h[0]} to ${m.ovr}">
       <polyline points="${xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ')}" fill="none" stroke="#0B2545" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
@@ -1879,8 +1915,8 @@ function partnerRow(p, c, ev, sel, i) {
     <div class="facebox tier-${c.tier}"><img src="${pimg(c)}" alt="${esc(c.first)}" ${c.keep ? '' : 'data-spin="1"'}><span class="tierlbl">${c.keep ? (c.glow ? 'GLOW-UP!' : 'YOURS') : esc(TIER_LABEL[c.tier])}</span></div>
     <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
       <div class="h-game" style="font-size:19px">${esc(c.first)} "${esc(c.nick)}"</div>
-      <div class="prow-ic"><span>${skIcon(c.spec, 16)}${esc(SPEC_WORD[c.spec])}</span><span>${trIcon(c.trait, 15)}${esc(TRAIT_WORD[c.trait][0])}</span><span class="${fits ? 'ok' : 'bad'}">${sideCourt(c.side, p.side, 22)}${fits ? '+3' : '−4'}</span>${c.keep && tp.chem ? `<span class="ok">${hearts(tp.chem, 11)}</span>` : ''}</div>
-      <div style="display:flex;align-items:center;gap:6px"><div class="meter"><i style="width:${Math.min(100, ch * 160).toFixed(0)}%;background:${ch >= 0.25 ? 'var(--green)' : 'var(--orange)'}"></i></div><span style="font-size:12px;font-weight:900;white-space:nowrap">${pct(ch)} title</span></div>
+      <div class="prow-ic"><span>${skIcon(c.spec, 16)}${esc(SPEC_WORD[c.spec])}</span><span>${trIcon(c.trait, 15)}${esc(TRAIT_WORD[c.trait][0])}</span><span class="${fits ? 'ok' : 'bad'}">${fits ? '✓' : '✗'} Plays ${sideWord(c.side).toLowerCase()}</span>${c.keep && tp.chem ? `<span class="ok">${hearts(tp.chem, 11)}</span>` : ''}</div>
+      <div class="tch"><span>TITLE CHANCE</span><div class="meter"><i style="width:${Math.max(3, Math.min(100, ch * 160)).toFixed(0)}%;background:${ch >= 0.25 ? 'var(--green)' : ch >= 0.1 ? 'var(--sun)' : 'var(--orange)'}"></i></div><b>${ch < 0.01 ? 'under 1%' : pct(ch)}</b></div>
     </div>
     <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:6px">
       <div class="ovrbox"><b class="num">${c.ovr}</b><span>OVR</span></div>
@@ -1895,7 +1931,7 @@ SCREENS.partner = () => {
     ${hud(p)}
     <div class="pad" style="gap:8px">
       <div class="scr-head"><div><span class="chip">${first ? 'Day 1 · Copacabana' : `Before stop ${p.stop + 1} / ${STOPS}${p.stop === 4 ? ' · contract ends' : ''}`}</span><h2 class="h-game" style="font-size:28px">PARTNER RAFFLE</h2></div>
-        <span class="side-note">${sideCourt(null, p.side, 40)}<b>YOU · ${sideWord(p.side)}</b></span></div>
+        <span class="side-note">You play<b>${sideWord(p.side)}</b></span></div>
       ${list.map((c, i) => partnerRow(p, c, ev, c.id === sel.id, i)).join('')}
       <div class="foot row2">
         <button class="btn dark respin" data-a="respin" ${p.money < rc ? 'disabled' : ''} aria-label="Spin again for ${brl(rc)}">${ICON.dice}<span>${short(rc)}</span></button>
@@ -1905,6 +1941,7 @@ SCREENS.partner = () => {
   </section>`;
 };
 
+const curve = (pts) => pts.map((q) => q.split(',').map(Number)).reduce((d, [x, y], i, a) => (i ? `${d} C${a[i - 1][0]},${(a[i - 1][1] + y) / 2} ${x},${(a[i - 1][1] + y) / 2} ${x},${y}` : `M${x},${y}`), '');
 SCREENS.road = () => {
   const p = G.run, H = 900, ys = EVENTS.map((_, i) => ROAD_Y(i)), xs = EVENTS.map((_, i) => (i % 2 ? 74 : 26));
   const pts = EVENTS.map((_, i) => `${(xs[i] * 3.9).toFixed(0)},${ys[i]}`);
@@ -1932,8 +1969,8 @@ SCREENS.road = () => {
       <div class="band" style="top:770px;bottom:0;background:#FFD98A"></div>
       ${[[8, 120], [18, 190], [46, 140], [87, 125], [92, 205], [5, 260], [51, 200], [38, 110], [82, 255], [15, 330]].map((s, i) => `<i style="position:absolute;left:${s[0]}%;top:${s[1]}px;width:${i % 2 ? 4 : 6}px;height:${i % 2 ? 4 : 6}px;border-radius:50%;background:#fff;opacity:.7"></i>`).join('')}
       <svg class="path" viewBox="0 0 390 ${H}" preserveAspectRatio="none" aria-hidden="true">
-        <polyline points="${pts.join(' ')} 195,60" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 16" opacity=".85" vector-effect="non-scaling-stroke"/>
-        ${p.stop > 0 ? `<polyline points="${pts.slice(0, p.stop + 1).join(' ')}" fill="none" stroke="#0B2545" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><polyline points="${pts.slice(0, p.stop + 1).join(' ')}" fill="none" stroke="#FFC400" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` : ''}
+        <path d="${curve(pts.concat(['195,60']))}" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 16" opacity=".85" vector-effect="non-scaling-stroke"/>
+        ${p.stop > 0 ? `<path d="${curve(pts.slice(0, p.stop + 1))}" fill="none" stroke="#0B2545" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><path d="${curve(pts.slice(0, p.stop + 1))}" fill="none" stroke="#FFC400" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>` : ''}
       </svg>
       <div class="goalflag">${ICON.coin(36)}<div style="display:flex;flex-direction:column;line-height:1"><span style="font-size:10px;font-weight:900;letter-spacing:1.5px">THE GOAL · END OF STOP 8</span><span class="h-game" style="font-size:24px">R$ 1,000,000</span></div></div>
       ${nodes}
@@ -1975,10 +2012,10 @@ const TR_UI = {
 };
 const trTitle = (o) => TR_UI[o.id] || o.title;
 function trFx(p, o) {
-  if (o.main) return `${skIcon(o.main, 20)}<b>+4</b>`;
+  if (o.main) return `${skIcon(o.main, 18)}<b>+${SK_LABEL[o.main]}</b>`;
   return {
-    camp: `${skIcon('chest', 20, '#22C46E')}<b>+2 all</b>`,
-    spar: `${skIcon('chest', 20, '#22C46E')}<b>+1 all</b><i class="warn">25% hurt</i>`,
+    camp: `${skIcon('all', 17)}<b>+2 all</b>`,
+    spar: `${skIcon('all', 17)}<b>+1 all</b><i class="warn">25% hurt</i>`,
     spa: `${batt(11, '#0B6B3D')}<b>+35</b>`,
     churras: `${heart1(15)}<b>+1</b>`,
     show: `${ICON.coin(16)}<b>cash</b><i class="warn">sloppy</i>`,
@@ -2006,7 +2043,6 @@ SCREENS.train = () => {
       ${on ? `<span class="pickno">${ids.indexOf(o.id) + 1}</span>` : best === o.id ? `<span class="tt-tip">TIP</span>` : ''}
       <div class="tt-top"><div class="tile" style="background:var(--${kind}-tile)">${drillIcon(DRILL_ICON[o.id] ? o.id : 'camp')}</div><span class="t">${esc(trTitle(o))}</span></div>
       <span class="fx">${trFx(p, o)}</span>
-      ${nt ? `<span class="tac ${isDef(nt) ? 'd' : 'a'}">${esc(TAC_SHORT[nt])} <b>Lv${p.mastery[nt] + 1}</b></span>` : ''}
       <span class="tt-foot"><span class="en ${o.en < 0 ? 'plus' : ''}">${batt(9)}${o.en ? (o.en > 0 ? '−' : '+') + Math.abs(o.en) : '0'}</span><span class="c" style="color:${e ? 'var(--green-ink)' : 'var(--navy)'}">${e ? '+' + short(e) : c ? short(c) : 'FREE'}</span></span>
     </button>`;
   };
@@ -2017,7 +2053,7 @@ SCREENS.train = () => {
     <div class="pad train-pad">
       <div class="scr-head"><div><span class="chip">Stop ${p.stop + 1} · ${formatFor(p.stop).length} games</span><h2 class="h-game" style="font-size:24px">TRAINING WEEK</h2></div>
         <div class="slots3 ${ids.length >= MAX_PICKS ? 'full' : ''}" aria-label="${ids.length} of 3 picked"><span>PICK 3</span><div>${[0, 1, 2].map((i) => `<i class="${ids[i] ? 'on' : ''}">${ids[i] ? drillIcon(DRILL_ICON[ids[i]] ? ids[i] : 'camp') : ''}</i>`).join('')}</div></div></div>
-      <div class="duo-row">${skBars(p, ids)}${mate(p, { plus: mplus, chem: mchem })}</div>
+      <div class="duo-row">${skillRank(p, ids)}${mate(p, { plus: mplus, chem: mchem })}</div>
       <div class="ttgrid">${opts.map(tile).join('')}</div>
       <div class="foot">
         <div class="fitbar"><span class="fb-ic">${batt(13, '#fff')}</span><div class="fb-bar"><i style="width:${lo}%;background:${col}"></i>${hi > lo ? `<s class="${enA < p.energy ? 'dn' : 'up'}" style="left:${lo}%;width:${hi - lo}%"></s>` : ''}</div><b class="num">${p.energy}<span>→</span><em style="color:${col}">${enA}</em></b></div>
@@ -2700,7 +2736,7 @@ const ACT = {
     if (c.fee) money(p, -c.fee, 'costs');
     track('partner_sign', { keep: !!c.keep, tier: c.tier, fee: c.fee, ovr: c.ovr, side_ok: c.side !== p.side });
     if (c.keep) { if (p.stop === 4) p.kept = true; } else { const n = { ...c }; delete n.keep; n.hist = [n.ovr]; n.since = p.stop; p.partner = n; p.streak = 0; }
-    sfx('coin'); go('road', { pinFrom: p.stop > 0 ? p.stop - 1 : undefined });
+    sfx('coin'); go('road', { pinFrom: p.stop > 0 ? p.stop - 1 : undefined }); if (!c.keep) signPopup();
   },
   road() { if (!G.run || !G.run.partner) return; if (G.run && !G.run.over && ['train', 'plan', 'gains', 'rachao'].includes(G.screen)) { G.ui.back = G.screen; } go('road'); },
   totrain() { const p = G.run; if (G.ui.back) { const b = G.ui.back; G.ui.back = null; go(b); return; } if (!p.rival) p.rival = makeRival(p); go('train', { tsel: [] }); },
