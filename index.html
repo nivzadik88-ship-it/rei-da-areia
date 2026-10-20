@@ -754,6 +754,145 @@ img { display: block; max-width: 100%; }
 .pop .mae span { font-size: 12px; }
 .whybox { padding: 7px 10px; font-size: 12px; }
 .pop .mm { padding: 8px 10px 16px; }
+
+/* ===== v13: stop pips, visual training, court game plan, partner identity ===== */
+@media (max-width: 380px) { .of1m { display: none; } .goal-top { letter-spacing: .6px; } }
+.stops { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; }
+.stops i { height: 10px; border-radius: 3px; background: rgba(255,255,255,.18); }
+.stops i.d { background: #7FA8D6; } .stops i.s { background: #E4EEF5; } .stops i.w { background: var(--sun); }
+.stops i.n { background: transparent; box-shadow: inset 0 0 0 2px #fff; animation: flick 1.2s ease-in-out infinite; }
+/* partner bubble */
+.mate { flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 0; border: 0; background: none; }
+.mate-f { position: relative; width: 54px; height: 54px; }
+.mate-f img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 3px solid var(--navy); background: var(--navy); }
+.mate-f b { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); padding: 0 6px; border-radius: 8px; background: var(--navy); color: #fff; font-family: var(--game); font-weight: 400; font-size: 13px; line-height: 17px; }
+.mate-plus { position: absolute; top: -6px; right: -10px; padding: 0 6px; border-radius: 8px; background: var(--green); border: 2px solid var(--navy); font-style: normal; font-family: var(--game); font-size: 13px; animation: popin .35s cubic-bezier(.2,1.4,.4,1); }
+.hearts { display: inline-flex; gap: 1px; align-items: center; }
+.mate .hearts { margin-top: 4px; }
+/* partner card */
+.pcpop { padding-top: 58px !important; }
+.pc-face { position: absolute; top: -50px; left: 50%; margin-left: -50px; width: 100px; height: 100px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 4px solid var(--navy); box-shadow: 0 0 0 4px var(--sun); background: var(--navy); animation: drop .5s cubic-bezier(.2,1.4,.4,1) both; }
+.pc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; width: 100%; }
+.pc-t { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 76px; padding: 6px 2px; border-radius: 14px; background: var(--ice); }
+.pc-t > b { font-family: var(--game); font-weight: 400; font-size: 30px; line-height: 1; }
+.pc-t span { font-size: 11px; font-weight: 900; }
+.pc-t em { font-style: normal; font-size: 9px; font-weight: 800; color: var(--mist); line-height: 1.1; }
+.pc-chem { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.pc-chem span:last-child { font-size: 11px; font-weight: 900; color: var(--mist); }
+.pc-spark { width: 100%; display: flex; align-items: center; gap: 8px; padding: 4px 10px; border-radius: 14px; background: #FFF8E4; }
+.pc-spark svg { flex: 1; }
+.pc-spark b { font-family: var(--game); font-weight: 400; font-size: 18px; white-space: nowrap; } .pc-spark b.up { color: var(--green-ink); }
+/* training */
+.train-pad { gap: 8px !important; }
+.slots3 { flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 8px; border-radius: 12px; background: var(--sun); border: 3px solid var(--navy); }
+.slots3 > span { font-size: 9px; font-weight: 900; letter-spacing: 1px; }
+.slots3 div { display: flex; gap: 4px; }
+.slots3 i { width: 30px; height: 30px; border-radius: 9px; border: 2px dashed var(--navy); display: flex; align-items: center; justify-content: center; }
+.slots3 i.on { border-style: solid; background: #fff; }
+.slots3 i svg { width: 22px; height: 22px; }
+.slots3.full { background: #C8F0DA; }
+.duo-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 16px; background: #fff; border: 2px solid rgba(11,37,69,.12); }
+.skb { flex: 1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+.skc { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.skv { position: relative; width: 14px; height: 38px; border-radius: 7px; background: var(--ice); overflow: hidden; margin-bottom: 2px; }
+.skv i { position: absolute; left: 0; right: 0; bottom: 0; background: var(--navy); border-radius: 7px 7px 0 0; transition: height .3s; }
+.skv u { position: absolute; left: 0; right: 0; background: var(--green); border-radius: 7px 7px 0 0; animation: popin .3s; }
+.skc.weak .skv i { background: var(--coral); }
+.skc b { font-family: var(--game); font-weight: 400; font-size: 15px; line-height: 1; display: flex; align-items: baseline; gap: 1px; }
+.skc b em { font-style: normal; font-size: 11px; color: var(--green-ink); }
+.skc span { font-size: 8px; font-weight: 900; letter-spacing: .3px; color: var(--mist); text-transform: uppercase; }
+.skc.weak span { color: #C2185B; }
+.ttgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.tt { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 7px; border-radius: 14px; text-align: left; background: #fff; border: 3px solid rgba(11,37,69,.14); }
+.tt.on { border-color: var(--navy); box-shadow: 0 3px 0 var(--navy); background: #FFFBEB; }
+.tt.special { background: #FFFBEE; border-style: dashed; }
+.tt.special.on { border-style: solid; }
+.tt:disabled { opacity: .4; }
+.tt-top { display: flex; align-items: center; gap: 6px; width: 100%; }
+.tt .tile { flex: none; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.tt .tile svg { width: 26px; height: 26px; overflow: visible; }
+.tt.on .tile svg .mv { animation: drillmv .7s ease-in-out infinite; }
+.tt .t { font-family: var(--game); font-size: 13px; line-height: 1.02; min-width: 0; }
+.tt .fx { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; min-height: 22px; }
+.tt .fx b { font-family: var(--game); font-weight: 400; font-size: 13px; color: var(--green-ink); }
+.tt .fx .warn { font-style: normal; font-size: 9px; font-weight: 900; padding: 0 4px; border-radius: 5px; background: #FFE3E9; color: #A3123E; }
+.tac { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px; border-radius: 6px; font-size: 10px; font-weight: 900; background: var(--atk-bg); color: var(--atk-fg); }
+.tac.d { background: var(--def-bg); color: var(--def-fg); }
+.tac b { font-family: var(--game); font-weight: 400; font-size: 11px; }
+.tt-foot { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: auto; }
+.tt-foot .en { display: inline-flex; align-items: center; gap: 2px; font-size: 10px; font-weight: 900; padding: 1px 4px; border-radius: 6px; background: #FFE3E9; color: #A3123E; }
+.tt-foot .en.plus { background: var(--both-bg); color: var(--green-ink); }
+.tt-foot .c { font-family: var(--game); font-size: 13px; }
+.tt .pickno { top: -8px; right: -6px; width: 24px; height: 24px; font-size: 13px; }
+.tt-tip { position: absolute; top: -8px; right: -4px; padding: 1px 6px; border-radius: 7px; background: var(--green); border: 2px solid var(--navy); font-size: 9px; font-weight: 900; letter-spacing: .8px; z-index: 1; }
+.fitbar { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 12px; background: var(--navy); color: #fff; }
+.fb-bar { position: relative; flex: 1; height: 10px; border-radius: 5px; background: rgba(255,255,255,.15); overflow: hidden; }
+.fb-bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; transition: width .3s; }
+.fb-bar s { position: absolute; top: 0; bottom: 0; text-decoration: none; }
+.fb-bar s.dn { background: repeating-linear-gradient(45deg, #FF4D6D 0 4px, rgba(255,77,109,.4) 4px 8px); }
+.fb-bar s.up { background: repeating-linear-gradient(45deg, #22C46E 0 4px, rgba(34,196,110,.4) 4px 8px); }
+.fitbar > b { font-family: var(--game); font-weight: 400; font-size: 16px; display: flex; gap: 4px; align-items: baseline; }
+.fitbar > b span { font-size: 12px; opacity: .6; } .fitbar > b em { font-style: normal; }
+/* gains */
+.gtacs { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 4px; border-top: 2px dashed var(--ice); }
+.gtacs .tac { font-size: 12px; padding: 2px 8px; } .gtacs .tac b { font-size: 13px; }
+.gmate { display: flex; align-items: center; gap: 8px; padding: 4px 0 0; border: 0; border-top: 2px dashed var(--ice); background: none; width: 100%; text-align: left; }
+.gmate img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 2px solid var(--navy); }
+.gmate span { font-size: 13px; font-weight: 900; } .gmate b { font-family: var(--game); font-weight: 400; font-size: 16px; color: var(--green-ink); margin-right: auto; }
+/* game plan court */
+.plan-pad { gap: 7px !important; }
+.court { position: relative; width: 100%; aspect-ratio: 340 / 220; }
+.court-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.court .shot { stroke-dasharray: 400; stroke-dashoffset: 400; animation: shotin .55s cubic-bezier(.3,.8,.3,1) forwards; }
+.court .inc { animation: incflow 1s linear infinite; }
+.court .zone { transform-box: fill-box; transform-origin: center; animation: popin .35s cubic-bezier(.2,1.4,.4,1); }
+.court .tgt { transform-box: fill-box; transform-origin: center; animation: pulse2 1.4s ease-in-out infinite; }
+@keyframes shotin { to { stroke-dashoffset: 0 } }
+@keyframes incflow { to { stroke-dashoffset: -24 } }
+@keyframes pulse2 { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.18) } }
+.cp { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; padding: 0; background: var(--navy); border: 3px solid #fff; box-shadow: 0 3px 0 var(--navy); }
+.cp img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 18%; }
+.cp.rv { border-color: #FF4D6D; }
+.cp.me { border-color: var(--navy); box-shadow: 0 0 0 3px var(--sun); }
+.cp.mt { border-color: var(--green); }
+.cp.mt.bad { border-color: var(--coral); }
+.cp.mt b { position: absolute; left: 50%; bottom: -9px; transform: translateX(-50%); padding: 0 5px; border-radius: 7px; background: var(--navy); color: #fff; font-family: var(--game); font-weight: 400; font-size: 11px; line-height: 15px; }
+.ctag { position: absolute; transform: translate(-50%, -50%); padding: 1px 7px; border-radius: 7px; font-size: 9px; font-weight: 900; letter-spacing: .8px; white-space: nowrap; border: 2px solid var(--navy); pointer-events: none; }
+.ctag.ok { background: var(--green); } .ctag.mid { background: var(--sun); } .ctag.bad { background: #FF4D6D; color: #fff; }
+.cfav { position: absolute; transform: translate(-50%, -50%); padding: 1px 7px; border-radius: 7px; background: #D7193F; color: #fff; font-size: 9px; font-weight: 900; white-space: nowrap; pointer-events: none; }
+.cband { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 2px 4px 2px 10px; border-radius: 999px; background: var(--navy); color: #fff; white-space: nowrap; font-size: 11px; font-weight: 900; letter-spacing: .5px; }
+.cband.top { top: -4px; background: linear-gradient(90deg, #D7193F, #FF4D6D); }
+.cband.bot { bottom: -6px; }
+.cband .tm { font-family: var(--game); font-size: 15px; padding: 0 7px; border-radius: 999px; background: #fff; color: var(--navy); }
+.cband .sk { display: inline-flex; } .cband .sk i { color: rgba(255,255,255,.35); display: inline-flex; } .cband .sk i.on { color: #2A0A14; } .cband .sk svg { width: 12px; height: 12px; }
+.prow { display: flex; flex-direction: column; gap: 3px; }
+.plbl { font-size: 10px; font-weight: 900; letter-spacing: 1.2px; }
+.plbl.a { color: #C2410C; } .plbl.d { color: var(--def-fg); }
+.pgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+.pchip { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 5px 2px 4px; border-radius: 12px; background: #fff; border: 3px solid rgba(11,37,69,.14); }
+.pchip.on { border-color: var(--navy); background: var(--sun); box-shadow: 0 3px 0 var(--navy); }
+.pchip .nm { font-family: var(--game); font-size: 12px; line-height: 1.05; white-space: nowrap; }
+.pchip .ft { display: flex; align-items: center; gap: 4px; }
+.pchip .ft b { font-family: var(--game); font-weight: 400; font-size: 13px; }
+.pchip .pips { display: flex; gap: 1px; } .pchip .pips i { width: 6px; height: 6px; border-radius: 2px; background: var(--ice); } .pchip .pips i.on { background: var(--navy); }
+.pchip.on .pips i { background: rgba(11,37,69,.2); } .pchip.on .pips i.on { background: var(--navy); }
+.pchip .rk { position: absolute; top: -6px; left: -4px; width: 16px; height: 16px; border-radius: 50%; background: var(--orange); color: #fff; font-style: normal; font-size: 11px; font-weight: 900; line-height: 16px; text-align: center; border: 2px solid var(--navy); box-sizing: content-box; }
+.chancebox .risk { margin-left: auto; padding: 0 6px; border-radius: 6px; background: var(--orange); color: #fff; font-size: 9px; letter-spacing: .8px; }
+/* raffle */
+.prow-ic { display: flex; flex-wrap: wrap; gap: 4px; }
+.prow-ic > span { display: inline-flex; align-items: center; gap: 3px; padding: 1px 6px 1px 3px; border-radius: 7px; background: var(--ice); font-size: 11px; font-weight: 900; }
+.prow-ic > span.ok { background: var(--both-bg); color: var(--green-ink); } .prow-ic > span.bad { background: #FFE3E9; color: #A3123E; }
+.side-note { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; }
+.perk { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 900; color: var(--sea); }
+/* road pin with your partner */
+.road-pin.duo { overflow: visible; background: var(--navy); }
+.road-pin.duo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 15%; }
+.road-pin.duo .pm { position: absolute; right: -18px; bottom: -10px; width: 30px; height: 30px; border: 2px solid #fff; background: var(--navy); }
+/* beach practice / popups */
+.rmeta { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; color: var(--mist); }
+.rmeta b { font-family: var(--game); font-weight: 400; font-size: 15px; color: var(--navy); }
+.rmeta .en { display: inline-flex; align-items: center; gap: 2px; padding: 0 5px; border-radius: 6px; background: #FFE3E9; color: #A3123E; font-weight: 900; }
+.rew-f { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 2px solid var(--navy); }
 </style>
 </head>
 <body>
@@ -1192,6 +1331,7 @@ function settleStop(p, res) {
   p.moneyHist.push(p.money); p.ovrHist.push(ovr(p));
   Object.assign(res, { placement, prize, sponsorPay, sponsorNew, agentCut, betWin, betLost, moneyA: p.money, ovrA: ovrExact(p), partnerA: partner.ovr, enA: p.energy, crownNow, worldNow, tip });
   p.results.push({ stop: p.stop, ev: ev.id, placement, prize });
+  if (p.partner) (p.partner.hist = p.partner.hist || [p.partner.ovr]).push(p.partner.ovr);
   p.stop++; p.rival = null;
   return res;
 }
@@ -1559,12 +1699,12 @@ function mmBar(m, opts = {}) {
 }
 function hud(p, opts = {}) {
   const m = opts.money ?? p.money, o = opts.ovr ?? ovr(p);
-  const prog = clamp(Math.log10(Math.max(m, 1)) / 6, 0, 1) * 100;
+  const done = p.results.length;
   return `<header class="hud">
     <div class="coin num ${m < 0 ? 'neg' : ''}" id="hud-money">${ICON.coin()}${brl(m)}</div>
-    <button class="goal" data-a="road" aria-label="Open the road to the million">
-      <div class="goal-top"><span>${Math.min(p.stop + 1, STOPS)}/${STOPS}</span><span style="color:var(--sun)">${goalPct(m)} of 1M</span></div>
-      <div class="goal-bar"><i style="width:${prog.toFixed(1)}%"></i>${[3, 4, 5].map((e) => `<u style="left:${e / 6 * 100}%"></u>`).join('')}</div>
+    <button class="goal" data-a="road" aria-label="Stop ${Math.min(done + 1, STOPS)} of ${STOPS}. ${goalPct(m)} of the million. Open the road">
+      <div class="goal-top"><span>STOP ${Math.min(done + 1, STOPS)}/${STOPS}</span><span style="color:var(--sun)">${goalPct(m)}<span class="of1m"> of 1M</span></span></div>
+      <div class="stops">${EVENTS.map((_, i) => { const r = p.results[i]; return `<i class="${r ? (r.placement === 'Champion' ? 'w' : r.placement === 'Runner-up' ? 's' : 'd') : i === done ? 'n' : ''}"></i>`; }).join('')}</div>
     </button>
     <div class="ovr-badge" title="${CATS[p.cat].name}"><b class="num" id="hud-ovr">${o}</b><span>OVR</span></div>
     ${enBadge(opts.en ?? p.energy)}
@@ -1584,6 +1724,69 @@ const MAE = {
   money: ['Filho, put some in the savings account!', 'A millionaire in this family? Imagine!', 'Buy your mãe a new fridge first.', 'Don\'t spend it all at the kiosk.'],
 };
 const maeSays = (k) => uiPick(MAE[k]);
+
+
+/* ================= v13 visual helpers ================= */
+/* skill = body part on a little stick figure; the trained part lights up */
+function skIcon(k, s = 22, hi = '#FF7A1A', col = '#0B2545') {
+  const c = (part) => (part === k || (k === 'shark' && part === 'leg') ? hi : col);
+  const fig = `<circle cx="12" cy="4.6" r="3" fill="${k === 'head' ? hi : 'none'}" stroke="${c('head')}" stroke-width="2"/>`
+    + `<path d="M12 8 V15" stroke="${c('chest')}" stroke-width="${k === 'chest' ? 5 : 2.2}" stroke-linecap="round"/>`
+    + `<path d="M12 10 L6.5 13.5 M12 10 L17.5 13.5" stroke="${c('shoulder')}" stroke-width="2.2" stroke-linecap="round"/>`
+    + (k === 'shoulder' ? `<circle cx="9" cy="9.6" r="2.3" fill="${hi}"/><circle cx="15" cy="9.6" r="2.3" fill="${hi}"/>` : '')
+    + `<path d="M12 15 L8 22 M12 15 L16 22" stroke="${c('leg')}" stroke-width="${k === 'leg' || k === 'shark' ? 3.2 : 2.2}" stroke-linecap="round"/>`;
+  return `<svg class="ski" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" aria-hidden="true">${k === 'shark' ? `<g transform="rotate(160 12 12)">${fig}</g><circle cx="17.5" cy="3" r="2.6" fill="#FFC400" stroke="${col}" stroke-width="1.2"/>` : fig}</svg>`;
+}
+const TRAIT_IC = {
+  calm: '<path d="M3 11 Q7.5 7 12 11 T21 11 M3 17 Q7.5 13 12 17 T21 17" stroke="#0A72C2" stroke-width="2.6"/>',
+  fiery: '<path d="M12 2.5 Q19 9 16.5 15.5 Q15 20.5 12 21 Q6.5 20.5 6.8 15 Q7 11 10 8.5 Q10 12.5 12.2 13 Q10.8 7.5 12 2.5 Z" fill="#FF7A1A"/>',
+  veteran: '<path d="M7 2.5 L12 8 L17 2.5" stroke-width="2.4"/><circle cx="12" cy="14.5" r="6.5" fill="#FFC400"/><path d="M12 11 L13 13.6 L15.6 13.8 L13.6 15.4 L14.3 18 L12 16.6 L9.7 18 L10.4 15.4 L8.4 13.8 L11 13.6 Z" fill="#fff" stroke-width="1"/>',
+  loyal: '<path d="M12 20.5 L4.2 12.8 Q1.6 9.2 4.6 6 Q8.4 3.4 12 7.6 Q15.6 3.4 19.4 6 Q22.4 9.2 19.8 12.8 Z" fill="#FF4D6D"/>',
+  engine: '<path d="M13.5 2 L5 13.2 H11 L10 22 L19 10.2 H13 Z" fill="#22C46E"/>',
+};
+const TRAIT_WORD = { calm: ['Calm', '+2 in finals'], fiery: ['Fiery', 'Big swings'], veteran: ['Veteran', '+1 always'], loyal: ['Loyal', 'Cheap renewal'], engine: ['Engine', 'Never tires'] };
+const trIcon = (t, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${TRAIT_IC[t] || ''}</svg>`;
+const SPEC_WORD = { shark: 'Shark', shoulder: 'Drops', chest: 'Chest', head: 'Header', leg: 'Legs' };
+const TAC_SHORT = { shark: 'Shark', header: 'Header', pingada: 'Pingada', diag: 'Diagonal', chestc: 'Chest', block: 'Block', ssave: 'Shark save', dhead: 'Head save', dive: 'Dive', foot: 'Foot save', acro: 'Acrobatic' };
+const chemOf = (p) => (p.partner ? Math.min(6, 2 * p.streak + (p.cat >= 2 ? 1 : 0)) : 0);
+const HEART = 'M12 21 L4 13 Q1 9 4.5 5.5 Q8.5 2.5 12 7 Q15.5 2.5 19.5 5.5 Q23 9 20 13 Z';
+const hearts = (n, s = 12) => `<span class="hearts" aria-label="Chemistry ${n} of 6">${[0, 1, 2].map((i) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART}" fill="${n >= (i + 1) * 2 ? '#FF4D6D' : n >= i * 2 + 1 ? '#FFB3C1' : 'rgba(11,37,69,.12)'}" stroke="#0B2545" stroke-width="1.8"/></svg>`).join('')}</span>`;
+const heart1 = (s = 14) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="${HEART}" fill="#FF4D6D" stroke="#0B2545" stroke-width="1.8"/></svg>`;
+const batt = (h = 10, c = 'currentColor') => `<svg width="${Math.round(h * 1.8)}" height="${h}" viewBox="0 0 18 10" aria-hidden="true"><rect x=".8" y=".8" width="14.4" height="8.4" rx="2" fill="none" stroke="${c}" stroke-width="1.6"/><rect x="2.6" y="2.6" width="7" height="4.8" rx="1" fill="${c}"/><rect x="15.6" y="3.2" width="1.8" height="3.6" rx=".6" fill="${c}"/></svg>`;
+const eyeIc = (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="2.2" aria-hidden="true"><path d="M2 12 Q12 2 22 12 Q12 22 2 12 Z" fill="#fff"/><circle cx="12" cy="12" r="3.6" fill="#0B2545"/></svg>`;
+/* mini court seen from behind your baseline: you (navy) and where your partner plays */
+const sideCourt = (ps, ms, s = 34) => `<svg width="${s}" height="${Math.round(s * 0.7)}" viewBox="0 0 34 24" aria-hidden="true"><rect x="1.5" y="1.5" width="31" height="21" rx="4" fill="#FFD98A" stroke="#0B2545" stroke-width="2"/><path d="M17 2 V22" stroke="#fff" stroke-width="2" stroke-dasharray="2 2"/>${ps ? `<circle cx="${ps === 'L' ? 9 : 25}" cy="12" r="5" fill="${ps !== ms ? '#22C46E' : '#FF4D6D'}" stroke="#0B2545" stroke-width="1.5"/>` : `<circle cx="${ms === 'L' ? 25 : 9}" cy="12" r="4.5" fill="none" stroke="#0B2545" stroke-width="1.5" stroke-dasharray="2 1.6"/>`}<circle cx="${ms === 'L' ? 9 : 25}" cy="12" r="4.5" fill="#0B2545" ${ps === ms ? 'transform="translate(-3 0)"' : ''}/></svg>`;
+/* your partner, everywhere: face + overall + chemistry hearts. Tap = his card */
+function mate(p, o = {}) {
+  const m = p.partner; if (!m) return '';
+  return `<button class="mate ${o.cls || ''}" data-a="pcard" aria-label="Your partner ${esc(m.first)}, overall ${m.ovr}. Open his card">
+    <span class="mate-f"><img src="${pimg(m)}" alt=""><b class="num">${m.ovr}</b>${o.plus ? `<i class="mate-plus">+${o.plus}</i>` : ''}</span>
+    ${hearts(Math.min(6, chemOf(p) + (o.chem || 0)), o.hs || 11)}
+  </button>`;
+}
+function partnerCard() {
+  const p = G.run, m = p && p.partner; if (!m) return;
+  const h = (m.hist && m.hist.length ? m.hist.slice() : [m.ovr]); if (h[h.length - 1] !== m.ovr) h.push(m.ovr);
+  const W = 260, H = 64, lo = Math.min(...h) - 2, hi = Math.max(...h) + 2;
+  const xs = h.map((_, i) => 14 + i * ((W - 28) / Math.max(1, h.length - 1))), ys = h.map((v) => H - 10 - ((v - lo) / Math.max(1, hi - lo)) * (H - 22));
+  const gain = m.ovr - h[0], tw = TRAIT_WORD[m.trait] || ['', ''], stops = p.stop - (m.since ?? p.stop);
+  sfx('tap');
+  showOv(`<img class="pc-face" src="${pimg(m)}" alt="">
+    <span class="chip navy">${esc(TIER_LABEL[m.tier])}</span>
+    <div class="big" style="font-size:30px">${esc(m.first)} "${esc(m.nick)}"</div>
+    <div class="pc-grid">
+      <div class="pc-t"><b class="num">${m.ovr}</b><span>OVR</span></div>
+      <div class="pc-t">${skIcon(m.spec, 30)}<span>${esc(SPEC_WORD[m.spec])}</span></div>
+      <div class="pc-t">${trIcon(m.trait, 28)}<span>${esc(tw[0])}</span><em>${esc(tw[1])}</em></div>
+      <div class="pc-t">${sideCourt(m.side, p.side, 36)}<span>${sideWord(m.side)}</span><em>${m.side !== p.side ? 'fits you' : 'same as you'}</em></div>
+    </div>
+    <div class="pc-chem">${hearts(chemOf(p), 22)}<span>${stops > 0 ? `${stops} stop${stops > 1 ? 's' : ''} together` : 'New partner'}</span></div>
+    ${h.length > 1 ? `<div class="pc-spark"><svg width="100%" viewBox="0 0 ${W} ${H}" role="img" aria-label="Overall ${h[0]} to ${m.ovr}">
+      <polyline points="${xs.map((x, i) => `${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ')}" fill="none" stroke="#0B2545" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+      ${xs.map((x, i) => `<circle cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="${i === xs.length - 1 ? 6 : 4}" fill="${i === xs.length - 1 ? '#FFC400' : '#fff'}" stroke="#0B2545" stroke-width="2.5"/>`).join('')}
+    </svg><b class="${gain > 0 ? 'up' : ''}">${gain > 0 ? '+' : ''}${gain} OVR</b></div>` : ''}
+    <button class="btn" data-a="closeov">OK</button>`, 'pcpop');
+}
 
 /* ================= SCREENS ================= */
 const SCREENS = {};
@@ -1651,13 +1854,13 @@ SCREENS.create = () => {
         <div class="grid6">${PLAYER_FACES.map((f, i) => `<button class="pick face ${f === c.face ? 'on' : ''}" data-a="cface" data-v="${f}" aria-label="Face ${i + 1}" aria-pressed="${f === c.face}"><img src="${face(f)}" alt=""></button>`).join('')}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="rowhead"><span class="eyebrow">Favourite side</span><span style="font-size:12px;font-weight:800;color:var(--sea)">Partners on the ${c.side === 'L' ? 'right' : 'left'} fit you best</span></div>
+        <div class="rowhead"><span class="eyebrow">Favourite side</span></div>
         <div class="sidepick">${['L', 'R'].map((s) => `<button class="${c.side === s ? 'on' : ''}" data-a="cside" data-v="${s}" aria-pressed="${c.side === s}">
           <svg width="64" height="40" viewBox="0 0 64 40" aria-hidden="true"><rect x="1.5" y="1.5" width="61" height="37" rx="5" fill="#FFD98A" stroke="#0B2545" stroke-width="3"/><path d="M32 2 V38" stroke="#fff" stroke-width="3" stroke-dasharray="3 3"/><rect x="${s === 'L' ? 4 : 33}" y="4" width="27" height="15" rx="3" fill="#FF7A1A"/><circle cx="${s === 'L' ? 17 : 47}" cy="11" r="5" fill="#0B2545"/><circle cx="${s === 'L' ? 47 : 17}" cy="28" r="5" fill="#0B2545" opacity=".3"/></svg>
-          <span><b>${sideWord(s)} SIDE</b><em>${s === 'L' ? 'Lado esquerdo · the finisher' : 'Lado direito · the builder'}</em></span></button>`).join('')}</div>
+          <span><b>${sideWord(s)} SIDE</b><em>${s === 'L' ? 'The finisher' : 'The builder'}</em></span></button>`).join('')}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="rowhead"><span class="eyebrow">Your club</span><span style="font-size:12px;font-weight:800;color:var(--sea)">${esc(club.name)}: coach boosts ${SK_LABEL[club.perk]} +${perkPct(club)}%</span></div>
+        <div class="rowhead"><span class="eyebrow">Your club</span><span class="perk">${skIcon(club.perk, 18)}${SK_LABEL[club.perk]} +${perkPct(club)}%</span></div>
         <div class="grid6">${CLUBS.map((x) => `<button class="pick shirt ${x.id === c.club ? 'on' : ''}" data-a="cclub" data-v="${x.id}" aria-label="${esc(x.name)}" aria-pressed="${x.id === c.club}">${shirt(x)}</button>`).join('')}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
@@ -1671,14 +1874,12 @@ SCREENS.create = () => {
 
 /* ---- partner raffle ---- */
 function partnerRow(p, c, ev, sel, i) {
-  const tp = teamParts(p, c, ev, c.keep), ch = titleChance(p, c, tp.total);
-  const fits = c.side !== p.side;
+  const tp = teamParts(p, c, ev, c.keep), ch = titleChance(p, c, tp.total), fits = c.side !== p.side;
   return `<button class="pcardrow ${sel ? 'on' : ''} ${c.keep ? 'keep' : ''}" data-a="ppick" data-v="${c.id}" aria-pressed="${sel}" style="--i:${i}">
-    <div class="facebox tier-${c.tier}"><img src="${pimg(c)}" alt="${esc(c.first)}" ${c.keep ? '' : 'data-spin="1"'}><span class="tierlbl">${esc(TIER_LABEL[c.tier])}</span></div>
+    <div class="facebox tier-${c.tier}"><img src="${pimg(c)}" alt="${esc(c.first)}" ${c.keep ? '' : 'data-spin="1"'}><span class="tierlbl">${c.keep ? (c.glow ? 'GLOW-UP!' : 'YOURS') : esc(TIER_LABEL[c.tier])}</span></div>
     <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
       <div class="h-game" style="font-size:19px">${esc(c.first)} "${esc(c.nick)}"</div>
-      <div class="prow-sub">${c.keep ? `${c.glow ? '<b style="color:var(--green-ink)">Glow-up! Now ' + (c.tier === 3 ? 'an ' : 'a ') + esc(TIER_LABEL[c.tier].toLowerCase()) + '</b> · ' : 'Your partner · '}chemistry +${tp.chem}` : esc(SPEC[c.spec])} · ${esc(TRAITS[c.trait].split(' · ')[0])}</div>
-      <span class="tag ${fits ? 'side-ok' : 'side-bad'}" style="font-size:11px;letter-spacing:.3px;text-transform:none;padding:2px 8px;border-radius:999px">${fits ? `${sideWord(c.side).toLowerCase()} side · fits you +3` : `${sideWord(c.side).toLowerCase()} side · same as you −4`}</span>
+      <div class="prow-ic"><span>${skIcon(c.spec, 16)}${esc(SPEC_WORD[c.spec])}</span><span>${trIcon(c.trait, 15)}${esc(TRAIT_WORD[c.trait][0])}</span><span class="${fits ? 'ok' : 'bad'}">${sideCourt(c.side, p.side, 22)}${fits ? '+3' : '−4'}</span>${c.keep && tp.chem ? `<span class="ok">${hearts(tp.chem, 11)}</span>` : ''}</div>
       <div style="display:flex;align-items:center;gap:6px"><div class="meter"><i style="width:${Math.min(100, ch * 160).toFixed(0)}%;background:${ch >= 0.25 ? 'var(--green)' : 'var(--orange)'}"></i></div><span style="font-size:12px;font-weight:900;white-space:nowrap">${pct(ch)} title</span></div>
     </div>
     <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:6px">
@@ -1694,7 +1895,7 @@ SCREENS.partner = () => {
     ${hud(p)}
     <div class="pad" style="gap:8px">
       <div class="scr-head"><div><span class="chip">${first ? 'Day 1 · Copacabana' : `Before stop ${p.stop + 1} / ${STOPS}${p.stop === 4 ? ' · contract ends' : ''}`}</span><h2 class="h-game" style="font-size:28px">PARTNER RAFFLE</h2></div>
-        <span class="side-note">You: <b>${sideWord(p.side)}</b> side<br>${esc(TIER_LABEL[tier])}s</span></div>
+        <span class="side-note">${sideCourt(null, p.side, 40)}<b>YOU · ${sideWord(p.side)}</b></span></div>
       ${list.map((c, i) => partnerRow(p, c, ev, c.id === sel.id, i)).join('')}
       <div class="foot row2">
         <button class="btn dark respin" data-a="respin" ${p.money < rc ? 'disabled' : ''} aria-label="Spin again for ${brl(rc)}">${ICON.dice}<span>${short(rc)}</span></button>
@@ -1715,7 +1916,7 @@ SCREENS.road = () => {
     const pos = left ? `left:calc(${xs[i]}% - 44px);flex-direction:row` : `right:calc(${100 - xs[i]}% - 44px);flex-direction:row-reverse;text-align:right`;
     return `<div class="node ${r ? 'done' : now ? 'now' : 'locked'}" style="top:${ys[i] - 33}px;${pos}">
       <div class="lg"><img src="${img(ev.logo)}" alt="${esc(ev.name)} logo"></div>
-      <div class="lbl" style="${left ? '' : 'align-items:flex-end'}"><b>${esc(ev.name.replace('Liga Nacional · ', 'Liga · '))}</b><span>${r ? sbrl(r.prize) : 'Win R$ ' + short(ev.prize)} · ${esc(ev.venue)}</span><em style="${stc}">${st}</em></div>
+      <div class="lbl" style="${left ? '' : 'align-items:flex-end'}"><b>${esc(ev.name.replace('Liga Nacional · ', 'Liga · '))}</b><span>${r ? sbrl(r.prize) : 'R$ ' + short(ev.prize)}</span><em style="${stc}">${st}</em></div>
     </div>`;
   }).join('');
   const cur = Math.min(p.stop, STOPS - 1), from = G.ui.pinFrom ?? cur;
@@ -1736,7 +1937,7 @@ SCREENS.road = () => {
       </svg>
       <div class="goalflag">${ICON.coin(36)}<div style="display:flex;flex-direction:column;line-height:1"><span style="font-size:10px;font-weight:900;letter-spacing:1.5px">THE GOAL · END OF STOP 8</span><span class="h-game" style="font-size:24px">R$ 1,000,000</span></div></div>
       ${nodes}
-      <img class="road-pin" id="pin" src="${face(p.face)}" alt="You are here" style="${pinPos(from)}" data-to="${cur}">
+      <div class="road-pin duo" id="pin" style="${pinPos(from)}" data-to="${cur}"><img src="${face(p.face)}" alt="You are here">${p.partner ? `<img class="pm" src="${pimg(p.partner)}" alt="">` : ''}</div>
     </div>
     <div class="road-cta">
       ${mmBar(p.money, { label: need ? `NEED ${brl(need)} MORE` : 'YOU HOLD A MILLION · KEEP IT' })}
@@ -1768,32 +1969,59 @@ function skillRank(p, ids) {
   const gain = (k) => (ids || []).reduce((t, id) => { const s = SESSIONS.find((x) => x.id === id); return t + (s ? (s.main === k ? 4 : s.sec === k ? 1.5 : 0) : id === 'camp' ? 2 : id === 'spar' ? 1 : 0); }, 0);
   return `<div class="skmini">${order.map((k, i) => { const g = Math.round(gain(k)); return `<div class="skm ${i === 0 ? 'weak' : ''}"><span>${i === 0 ? 'WEAKEST' : SK_LABEL[k].toUpperCase()}</span><b class="num">${Math.round(p.skills[k])}</b>${i === 0 ? `<em>${SK_LABEL[k]}</em>` : ''}${g ? `<i>+${g}</i>` : ''}</div>`; }).join('')}</div>`;
 }
+const TR_UI = {
+  atk1: 'Smash shots', atk2: 'Touch shots', def1: 'Net defence', def2: 'Sand defence', camp: 'Pro camp', spa: 'Physio',
+  churras: 'Churrasco', show: 'Bar show', mental: 'Mind coach', spar: 'Spar Seleção', video: 'Spy video', dunes: 'Dune runs',
+};
+const trTitle = (o) => TR_UI[o.id] || o.title;
+function trFx(p, o) {
+  if (o.main) return `${skIcon(o.main, 20)}<b>+4</b>`;
+  return {
+    camp: `${skIcon('chest', 20, '#22C46E')}<b>+2 all</b>`,
+    spar: `${skIcon('chest', 20, '#22C46E')}<b>+1 all</b><i class="warn">25% hurt</i>`,
+    spa: `${batt(11, '#0B6B3D')}<b>+35</b>`,
+    churras: `${heart1(15)}<b>+1</b>`,
+    show: `${ICON.coin(16)}<b>cash</b><i class="warn">sloppy</i>`,
+    mental: `<b>+2 semi · final</b>`,
+    video: `${eyeIc(16)}<b>weak spot</b>`,
+    dunes: `${batt(11, '#0B6B3D')}<b>slow drain</b>`,
+  }[o.id] || '';
+}
+function skBars(p, ids) {
+  const gain = (k) => (ids || []).reduce((t, id) => { const s = SESSIONS.find((x) => x.id === id); return t + (s ? (s.main === k ? 4 : s.sec === k ? 1.5 : 0) : id === 'camp' ? 2 : id === 'spar' ? 1 : 0); }, 0);
+  const weak = SK.slice().sort((a, b) => p.skills[a] - p.skills[b])[0], H = (v) => clamp((v - 20) / 60, 0.04, 1) * 100;
+  return `<div class="skb">${SK.map((k) => { const v = p.skills[k], g = Math.round(gain(k)); return `<div class="skc ${k === weak ? 'weak' : ''}">
+    <div class="skv"><i style="height:${H(v).toFixed(0)}%"></i>${g ? `<u style="bottom:${H(v).toFixed(0)}%;height:${(H(v + g) - H(v)).toFixed(0)}%"></u>` : ''}</div>
+    ${skIcon(k, 22, k === weak ? '#D7193F' : '#FF7A1A')}<b class="num">${Math.round(v)}${g ? `<em>+${g}</em>` : ''}</b><span>${SK_LABEL[k]}</span></div>`; }).join('')}</div>`;
+}
 SCREENS.train = () => {
-  const p = G.run, ev = EVENTS[p.stop], ids = G.ui.tsel || [], opts = trainOpts(p), pv = trainPreview(p, ids);
-  const card = (o) => {
+  const p = G.run, ids = G.ui.tsel || [], opts = trainOpts(p), pv = trainPreview(p, ids), rv = p.rival;
+  const best = (p.energy < 45 && opts.find((o) => o.id === 'spa') ? 'spa' : null)
+    || (opts.find((o) => o.kind === 'def' && (() => { const t = nextTac(p, o); return t && DEF.find((d) => d.id === t).v[rv.fav] >= 3; })()) || {}).id;
+  const mplus = ids.reduce((t, id) => t + (SESSIONS.some((s) => s.id === id) ? 1 : id === 'spar' ? 2 : 0), 0), mchem = ids.includes('churras') ? 2 : 0;
+  const tile = (o) => {
     const on = ids.includes(o.id), full = !on && ids.length >= MAX_PICKS, c = sessCost(p, o), e = sessEarn(p, o), nt = nextTac(p, o);
     const kind = o.kind === 'rest' ? 'both' : o.kind;
-    return `<button class="tcard ${on ? 'on' : ''} ${o.main ? '' : 'special'}" data-a="tpick" data-v="${o.id}" ${full ? 'disabled' : ''} aria-pressed="${on}">
-      ${on ? `<span class="pickno">${ids.indexOf(o.id) + 1}</span>` : ''}
-      <div class="tile" style="background:var(--${kind}-tile)">${drillIcon(DRILL_ICON[o.id] ? o.id : 'camp')}</div>
-      <div class="tc-body"><span class="t">${esc(o.title)}</span>
-        <span class="sub">${o.main ? `+${SK_LABEL[o.main]}${nt ? ` · ${esc(TAC_NAME[nt])} Lv${p.mastery[nt] + 1}` : ''}` : esc(o.short || o.desc)}</span>
-        <span class="tc-foot"><span class="en ${o.en < 0 ? 'plus' : ''}">${o.en ? (o.en > 0 ? '−' : '+') + Math.abs(o.en) : '0'} fit</span><span class="c" style="color:${e ? 'var(--green-ink)' : 'var(--navy)'}">${e ? '+' + short(e) : c ? short(c) : 'FREE'}</span></span>
-      </div>
+    return `<button class="tt ${on ? 'on' : ''} ${o.main ? '' : 'special'}" data-a="tpick" data-v="${o.id}" ${full ? 'disabled' : ''} aria-pressed="${on}" aria-label="${esc(o.title)}. ${esc(o.main ? '+' + SK_LABEL[o.main] : o.desc)}">
+      ${on ? `<span class="pickno">${ids.indexOf(o.id) + 1}</span>` : best === o.id ? `<span class="tt-tip">TIP</span>` : ''}
+      <div class="tt-top"><div class="tile" style="background:var(--${kind}-tile)">${drillIcon(DRILL_ICON[o.id] ? o.id : 'camp')}</div><span class="t">${esc(trTitle(o))}</span></div>
+      <span class="fx">${trFx(p, o)}</span>
+      ${nt ? `<span class="tac ${isDef(nt) ? 'd' : 'a'}">${esc(TAC_SHORT[nt])} <b>Lv${p.mastery[nt] + 1}</b></span>` : ''}
+      <span class="tt-foot"><span class="en ${o.en < 0 ? 'plus' : ''}">${batt(9)}${o.en ? (o.en > 0 ? '−' : '+') + Math.abs(o.en) : '0'}</span><span class="c" style="color:${e ? 'var(--green-ink)' : 'var(--navy)'}">${e ? '+' + short(e) : c ? short(c) : 'FREE'}</span></span>
     </button>`;
   };
   const enA = pv.en, cant = pv.cost > p.money, col = enA >= 60 ? 'var(--green)' : enA >= 40 ? 'var(--sun)' : 'var(--coral)';
+  const lo = Math.min(enA, p.energy), hi = Math.max(enA, p.energy);
   return `<section class="scr">
     ${hud(p)}
-    <div class="pad" style="gap:8px">
-      <div class="scr-head"><div><span class="chip">Stop ${p.stop + 1} · ${formatFor(p.stop).length} games</span><h2 class="h-game" style="font-size:26px">TRAINING WEEK</h2></div>
-        <div class="pick3 ${ids.length >= MAX_PICKS ? 'full' : ''}"><span>PICK UP TO 3</span><div>${[0, 1, 2].map((i) => `<i class="${ids[i] ? 'on' : ''}">${ids[i] ? i + 1 : ''}</i>`).join('')}</div></div></div>
-      ${rivalStrip(p)}
-      ${skillRank(p, ids)}
-      <div class="grid2 tgrid">${opts.map(card).join('')}</div>
+    <div class="pad train-pad">
+      <div class="scr-head"><div><span class="chip">Stop ${p.stop + 1} · ${formatFor(p.stop).length} games</span><h2 class="h-game" style="font-size:24px">TRAINING WEEK</h2></div>
+        <div class="slots3 ${ids.length >= MAX_PICKS ? 'full' : ''}" aria-label="${ids.length} of 3 picked"><span>PICK 3</span><div>${[0, 1, 2].map((i) => `<i class="${ids[i] ? 'on' : ''}">${ids[i] ? drillIcon(DRILL_ICON[ids[i]] ? ids[i] : 'camp') : ''}</i>`).join('')}</div></div></div>
+      <div class="duo-row">${skBars(p, ids)}${mate(p, { plus: mplus, chem: mchem })}</div>
+      <div class="ttgrid">${opts.map(tile).join('')}</div>
       <div class="foot">
-        <div class="fitline"><span>FITNESS ${p.energy} → <b style="color:${col}">${enA}</b> · ${esc(enWord(enA))}${pv.rest ? ` · ${pv.rest} rest slot${pv.rest > 1 ? 's' : ''}` : ''}</span><div class="enbar"><i style="width:${enA}%;background:${col}"></i></div></div>
-        <button class="btn" data-a="dotrain" ${cant ? 'disabled' : ''}>${cant ? 'NOT ENOUGH MONEY' : ids.length ? `TRAIN ${ids.length} OF 3 · ${pv.cost ? short(pv.cost) : 'FREE'}` : 'REST ALL WEEK'}</button>
+        <div class="fitbar"><span class="fb-ic">${batt(13, '#fff')}</span><div class="fb-bar"><i style="width:${lo}%;background:${col}"></i>${hi > lo ? `<s class="${enA < p.energy ? 'dn' : 'up'}" style="left:${lo}%;width:${hi - lo}%"></s>` : ''}</div><b class="num">${p.energy}<span>→</span><em style="color:${col}">${enA}</em></b></div>
+        <button class="btn" data-a="dotrain" ${cant ? 'disabled' : ''}>${cant ? 'NOT ENOUGH MONEY' : ids.length ? `TRAIN · ${pv.cost ? short(pv.cost) : 'FREE'}` : 'REST ALL WEEK'}</button>
       </div>
     </div>
   </section>`;
@@ -1805,7 +2033,7 @@ SCREENS.gains = () => {
   const frac = (v) => clamp((v - lo) / (hi - lo), 0, 1);
   const C = 2 * Math.PI * 66, delta = Math.round(oA) - Math.round(oB);
   const rows = SK.map((k) => { const was = g.before[k], now = g.after[k], dd = Math.round(now) - Math.round(was); return { k, was, now, dd, raw: now - was }; });
-  const names = g.ids.map((id) => trainOpts(p).find((o) => o.id === id)).filter(Boolean).map((o) => o.title);
+  const names = g.ids.map((id) => trainOpts(p).find((o) => o.id === id)).filter(Boolean).map(trTitle);
   return `<section class="scr" style="background:var(--sky);overflow:hidden;--bg:var(--sky)">
     <div style="position:absolute;top:-60px;left:-60px;width:200px;height:200px;border-radius:50%;background:#FFD23F;box-shadow:0 0 0 20px rgba(255,226,120,.4)"></div>
     <div class="pad" style="position:relative;align-items:stretch">
@@ -1826,9 +2054,9 @@ SCREENS.gains = () => {
       <div class="card gains-card" style="display:flex;flex-direction:column;gap:10px">
         <div class="rowhead"><span class="h-game" style="font-size:18px">WHAT CHANGED</span><span style="font-size:12px;font-weight:900;color:${g.enA >= g.enB ? 'var(--green-ink)' : '#C2185B'}">Fitness ${g.enB} → ${g.enA}</span></div>
         ${rows.map((r) => `<div class="srow ${Math.abs(r.raw) > 0.05 ? '' : 'flat'}"><span class="n">${SK_LABEL[r.k].toUpperCase()}</span><div class="bar"><i style="width:${(Math.min(r.was, r.now) / 80 * 100).toFixed(1)}%;background:${SK_KIND[r.k] === 'atk' ? 'var(--orange)' : SK_KIND[r.k] === 'def' ? '#5B7BD6' : '#2FA36A'}"></i><i class="gain" data-w="${(Math.max(0, r.raw) / 80 * 100).toFixed(1)}%"></i></div><span class="v num">${Math.round(r.now)}</span><span class="d" style="${r.dd > 0 ? 'background:var(--green)' : r.raw < 0 ? 'color:#C2185B' : 'color:var(--mist)'}">${r.dd > 0 ? '+' + r.dd : r.raw < -0.05 ? Math.round(r.raw) || '−1' : '–'}</span></div>`).join('')}
-        ${g.tacs.map((t) => `<div style="display:flex;gap:8px;align-items:center;padding-top:4px;border-top:2px dashed var(--ice)"><span class="tag t-${isDef(t) ? 'def' : 'atk'}">TACTIC</span><span style="font-size:13px;font-weight:800">${esc(TAC_NAME[t])} now Lv ${p.mastery[t]}</span></div>`).join('')}
-        ${g.notes.map((n) => `<div style="font-size:13px;font-weight:800;padding-top:4px;border-top:2px dashed var(--ice)">${esc(n)}</div>`).join('')}
-        ${g.partnerA > g.partnerB ? `<div style="display:flex;gap:8px;align-items:center;padding-top:4px;border-top:2px dashed var(--ice)"><span style="font-size:12px;font-weight:800;color:var(--mist)">${esc(p.partner.first)} trained with you:</span><span class="h-game num" style="font-size:15px">${g.partnerB} → ${g.partnerA}</span></div>` : ''}
+        ${g.tacs.length ? `<div class="gtacs">${g.tacs.map((t) => `<span class="tac ${isDef(t) ? 'd' : 'a'}">${esc(TAC_SHORT[t])} <b>Lv${p.mastery[t]}</b></span>`).join('')}</div>` : ''}
+        ${g.notes.filter((n) => !/^Rest:/.test(n)).map((n) => `<div style="font-size:12px;font-weight:800;color:var(--mist)">${esc(n)}</div>`).join('')}
+        ${g.partnerA > g.partnerB ? `<button class="gmate" data-a="pcard"><img src="${pimg(p.partner)}" alt=""><span>${esc(p.partner.first)}</span><b class="num">${g.partnerB} → ${g.partnerA}</b>${hearts(chemOf(p), 13)}</button>` : ''}
       </div>
       <div class="foot"><button class="btn" data-a="torach">BEACH PRACTICE ›</button></div>
     </div>
@@ -1845,7 +2073,7 @@ SCREENS.rachao = () => {
       <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
         <span class="tag ${x.id === 'easy' ? 't-safe' : x.id === 'mid' ? 't-cash' : 't-risky'}">${esc(x.label)}</span>
         <b class="h-game" style="font-size:16px;line-height:1.05">${esc(x.name)}</b>
-        <span style="font-size:11px;font-weight:800;color:var(--mist)">Team ${Math.round(x.opp)} · you win ${pct(x.pw)} · +${r1(x.xp)} skills · −${x.en} fit</span>
+        <span class="rmeta"><b>${pct(x.pw)}</b> win<span class="en">${batt(9)}−${x.en}</span></span>
       </div>
       <div class="rstake"><span>STAKE</span><b class="num">${short(x.stake)}</b><em>win ${sbrl(roundMoney(x.stake * x.mult))}</em></div>
     </button>`;
@@ -1856,7 +2084,6 @@ SCREENS.rachao = () => {
       <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-start">
         <span class="chip navy">Rachão · Posto ${6 + (p.stop % 4)} · sunset</span>
         <h2 class="h-game outlined" style="font-size:28px">BEACH PRACTICE</h2>
-        <span style="font-size:12px;font-weight:800;color:var(--navy)">Play the locals for cash. You get sharper either way.</span>
       </div>
       ${(out ? R.opts.filter((x) => x.id === out.id) : R.opts).map(card).join('')}
       ${out ? `<div class="rach-res ${out.won ? 'won' : 'lost'}" id="rres">
@@ -1870,41 +2097,98 @@ SCREENS.rachao = () => {
   </section>`;
 };
 
-function optCard(o, t, key) {
-  const on = G.ui[key] === o.id;
-  return `<button class="opt sm ${on ? 'on' : ''}" data-a="${key}" data-v="${o.id}" aria-pressed="${on}">
-    <div class="opt-top"><span class="nm">${esc(t.name)}</span><span class="edge" style="color:${o.edge > 0 ? '#0B8A4E' : o.edge < 0 ? '#C2185B' : 'var(--mist)'}">${o.edge > 0 ? '+' : ''}${r1(o.edge)}</span></div>
-    <div class="opt-mid"><div class="pips" aria-label="Level ${o.lv} of 3">${[1, 2, 3].map((i) => `<i class="${i <= o.lv ? 'on' : ''}"></i>`).join('')}</div><span class="tag ${o.risky ? 't-risky' : 't-safe'}">${o.risky ? 'RISKY' : 'SAFE'}</span></div>
-    <span class="why">${esc(o.why)}</span>
-  </button>`;
+/* ---- game plan: the court from above. Your shot in gold, their favourite in red ---- */
+const CW = 340, CH = 220, CNET = 110;
+function atkPath(id, mx) {
+  const d = mx < CW / 2 ? 1 : -1, ox = CW - mx;
+  return {
+    shark: { d: `M${mx} 134 L${mx + d * 14} 72`, e: [mx + d * 14, 72] },
+    header: { d: `M${mx} 140 Q${CW / 2} 118 ${CW / 2} 34`, e: [CW / 2, 34] },
+    pingada: { d: `M${mx} 142 Q${mx + d * 22} 66 ${mx + d * 44} 90`, e: [mx + d * 44, 90] },
+    diag: { d: `M${mx} 146 L${ox + d * 44} 28`, e: [ox + d * 44, 28] },
+  }[id];
+}
+function inPath(id, rx) {
+  const d = rx > CW / 2 ? -1 : 1;
+  return {
+    shark: { d: `M${rx} 84 L${rx + d * 14} 146`, e: [rx + d * 14, 146] },
+    header: { d: `M${rx} 80 Q${CW / 2} 102 ${CW / 2} 186`, e: [CW / 2, 186] },
+    pingada: { d: `M${rx} 78 Q${rx + d * 22} 152 ${rx + d * 44} 130`, e: [rx + d * 44, 130] },
+    diag: { d: `M${rx} 74 L${CW - rx + d * 44} 192`, e: [CW - rx + d * 44, 192] },
+  }[id];
+}
+const ATK_GLYPH = {
+  shark: '<path d="M10 20 L13 5" stroke-width="3"/><circle cx="13.5" cy="4" r="2.6" fill="#FFC400"/>',
+  header: '<path d="M4 20 Q16 12 16 3" stroke-width="3"/><circle cx="16" cy="3.5" r="2.6" fill="#FFC400"/>',
+  pingada: '<path d="M6 20 Q11 2 20 9" stroke-width="2.6" stroke-dasharray="3 2.4"/><circle cx="20.5" cy="9.5" r="2.6" fill="#FFC400"/>',
+  diag: '<path d="M4 21 L26 3" stroke-width="3"/><circle cx="26" cy="3.5" r="2.6" fill="#FFC400"/>',
+};
+const atkGlyph = (id) => `<svg width="30" height="24" viewBox="0 0 30 24" fill="none" stroke="#0B2545" stroke-linecap="round" aria-hidden="true"><path d="M1 12.5 H29" stroke="#0B2545" stroke-width="1.4" stroke-dasharray="2 2" opacity=".35"/>${ATK_GLYPH[id]}</svg>`;
+const defCol = (v) => (v >= 3 ? '#22C46E' : v > 0 ? '#FFC400' : '#FF4D6D');
+const defGlyph = (v) => `<svg width="22" height="24" viewBox="0 0 22 24" aria-hidden="true"><path d="M11 2 L19.5 5.5 V12 Q19.5 19 11 22.5 Q2.5 19 2.5 12 V5.5 Z" fill="${defCol(v)}" stroke="#0B2545" stroke-width="2" stroke-linejoin="round"/>${v >= 3 ? '<path d="M7 12 L10 15 L15.5 8.5" fill="none" stroke="#0B2545" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' : v > 0 ? '<path d="M7.5 12.5 H14.5" stroke="#0B2545" stroke-width="2.4" stroke-linecap="round"/>' : '<path d="M8 9 L14 15 M14 9 L8 15" stroke="#0B2545" stroke-width="2.4" stroke-linecap="round"/>'}</svg>`;
+function courtView(p, rv) {
+  const mx = p.side === 'L' ? 100 : 240, px = CW - mx, fav = rv.fav, A = G.ui.atk, Dd = G.ui.def;
+  const a = atkPath(A, mx), inc = inPath(fav, 240), v = DEF.find((d) => d.id === Dd).v[fav];
+  const ring = rv.weak === A ? '#22C46E' : rv.strong === A ? '#FF4D6D' : '#FFFFFF';
+  const fits = p.partner.side !== p.side, tp = teamParts(p, p.partner, EVENTS[p.stop]);
+  const pos = (x, y) => `left:${(x / CW * 100).toFixed(2)}%;top:${(y / CH * 100).toFixed(2)}%`;
+  const [sk] = threat(p, rv);
+  return `<div class="court">
+    <svg class="court-svg" viewBox="0 0 ${CW} ${CH}" aria-hidden="true">
+      <defs><marker id="ahR" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#D7193F"/></marker></defs>
+      <rect x="12" y="6" width="${CW - 24}" height="${CH - 12}" rx="14" fill="#FFD98A" stroke="#0B2545" stroke-width="3"/>
+      <rect x="22" y="14" width="${CW - 44}" height="${CH - 28}" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/>
+      ${[[40, 30], [300, 52], [70, 196], [280, 178], [150, 150], [200, 60]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2" fill="#E7B95E"/>`).join('')}
+      <rect x="22" y="14" width="${CW - 44}" height="${CNET - 14}" fill="#FF4D6D" opacity=".07"/>
+      ${ATK.filter((t) => t.id !== A).map((t) => `<path d="${atkPath(t.id, mx).d}" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 5" stroke-linecap="round" opacity=".75"/>`).join('')}
+      <path d="${inc.d}" fill="none" stroke="#D7193F" stroke-width="4" stroke-dasharray="7 5" stroke-linecap="round" marker-end="url(#ahR)" class="inc"/>
+      <circle cx="${inc.e[0]}" cy="${inc.e[1]}" r="23" fill="${defCol(v)}" fill-opacity=".45" stroke="${defCol(v)}" stroke-width="3" class="zone"/>
+      <path d="${a.d}" fill="none" stroke="#0B2545" stroke-width="8" stroke-linecap="round"/>
+      <path d="${a.d}" fill="none" stroke="#FFC400" stroke-width="4.5" stroke-linecap="round" class="shot"/>
+      <circle cx="${a.e[0]}" cy="${a.e[1]}" r="15" fill="none" stroke="${ring}" stroke-width="3.5" stroke-dasharray="${ring === '#FFFFFF' ? '4 3' : '0'}" class="tgt"/>
+      <circle cx="${a.e[0]}" cy="${a.e[1]}" r="6.5" fill="#FFC400" stroke="#0B2545" stroke-width="2.5"/>
+      <rect x="6" y="${CNET - 3}" width="${CW - 12}" height="6" rx="3" fill="#0B2545"/>
+      <path d="M12 ${CNET} H${CW - 12}" stroke="#fff" stroke-width="1.4" stroke-dasharray="3 3"/>
+      <circle cx="9" cy="${CNET}" r="5" fill="#fff" stroke="#0B2545" stroke-width="2.5"/><circle cx="${CW - 9}" cy="${CNET}" r="5" fill="#fff" stroke="#0B2545" stroke-width="2.5"/>
+    </svg>
+    <span class="cp rv" style="${pos(100, 48)}"><img src="${rimg(rv, 0)}" alt=""></span>
+    <span class="cp rv" style="${pos(240, 48)}"><img src="${rimg(rv, 1)}" alt=""></span>
+    <span class="cp me" style="${pos(mx, 176)}"><img src="${face(p.face)}" alt="You"></span>
+    <button class="cp mt ${fits ? '' : 'bad'}" data-a="pcard" style="${pos(px, 176)}" aria-label="Your partner ${esc(p.partner.first)}"><img src="${pimg(p.partner)}" alt=""><b class="num">${p.partner.ovr}</b></button>
+    ${rv.weak === A ? `<span class="ctag ok" style="${pos(a.e[0], a.e[1] < 50 ? a.e[1] + 25 : a.e[1] - 24)}">WEAK SPOT</span>` : rv.strong === A ? `<span class="ctag bad" style="${pos(a.e[0], a.e[1] < 50 ? a.e[1] + 25 : a.e[1] - 24)}">THEY READ IT</span>` : ''}
+    <span class="ctag ${v >= 3 ? 'ok' : v > 0 ? 'mid' : 'bad'}" style="${pos(inc.e[0], inc.e[1] - 31)}">${v >= 3 ? 'STOPPED' : v > 0 ? 'HALF' : 'OPEN'}</span>
+    <div class="cband top"><span class="sk">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= sk ? 'on' : ''}">${ICON.skull}</i>`).join('')}</span><b>${esc(rv.name.toUpperCase())}</b><span class="tm num">${rv.ovr}</span></div>
+    <div class="cband bot"><b>YOU + ${esc(p.partner.first.toUpperCase())}</b>${hearts(chemOf(p), 11)}<span class="tm num">${Math.round(tp.total)}</span></div>
+    <span class="cfav" style="${pos(240, 82)}">${esc(TAC_SHORT[fav])} · ${Math.round(scoutRel(p) * 100)}%</span>
+  </div>`;
 }
 function threat(p, rv) {
   const gap = rv.ovr - teamParts(p, p.partner, EVENTS[p.stop]).total;
   return gap >= 6 ? [5, 'TERRIFYING'] : gap >= 3 ? [4, 'VERY DANGEROUS'] : gap >= 0 ? [3, 'DANGEROUS'] : gap >= -3 ? [2, 'BEATABLE'] : [1, 'YOU ARE BETTER'];
 }
+function planChip(o, key, glyph) {
+  const on = G.ui[key] === o.id, e = r1(o.edge), risky = o.risky && key === 'atk';
+  return `<button class="pchip ${on ? 'on' : ''}" data-a="${key}" data-v="${o.id}" aria-pressed="${on}" aria-label="${esc(TAC_NAME[o.id])}, ${e > 0 ? '+' : ''}${e}${risky ? ', risky' : ''}">
+    ${risky ? '<i class="rk" title="Risky">!</i>' : ''}${glyph}<span class="nm">${esc(TAC_SHORT[o.id])}</span>
+    <span class="ft"><span class="pips">${[1, 2, 3].map((i) => `<i class="${i <= o.lv ? 'on' : ''}"></i>`).join('')}</span><b style="color:${e > 0 ? '#0B8A4E' : e < 0 ? '#C2185B' : 'var(--mist)'}">${e > 0 ? '+' : ''}${e}</b></span>
+  </button>`;
+}
 SCREENS.plan = () => {
   const p = G.run, ev = EVENTS[p.stop], rv = p.rival, f = formatFor(p.stop);
   const atks = ATK.map((a) => atkInfo(p, a.id, rv)), defs = rv.defs.map((id) => defInfo(p, id, rv));
-  const od = planOdds(p, p.partner, ev, rv, G.ui.atk, G.ui.def), [sk, skT] = threat(p, rv);
+  const od = planOdds(p, p.partner, ev, rv, G.ui.atk, G.ui.def);
   return `<section class="scr">
     ${hud(p)}
-    <div class="pad plan-pad" style="gap:8px">
-      <div class="scr-head"><div><span class="chip navy">${esc(ev.name.split(' · ').pop())}</span><h2 class="h-game" style="font-size:26px">GAME PLAN</h2></div>
+    <div class="pad plan-pad">
+      <div class="scr-head"><h2 class="h-game" style="font-size:24px">GAME PLAN</h2>
         <div class="fmt">${f.map((r, i) => `<span class="${r.g ? 'g' : ''} ${r.id === 'F' ? 'f' : ''}">${r.g ? 'G' + r.g : r.id}</span>${i < f.length - 1 ? '<i></i>' : ''}`).join('')}</div></div>
-      <div class="rival sm">
-        <div class="rival-faces sm"><img src="${rimg(rv, 0)}" alt=""><img src="${rimg(rv, 1)}" alt=""></div>
-        <div style="display:flex;flex-direction:column;flex:1;min-width:0;line-height:1.15"><span class="h-game" style="font-size:17px">${esc(rv.name.toUpperCase())}</span><span style="font-size:12px;font-weight:800">Love the <b>${esc(TAC_NAME[rv.fav].toLowerCase())}</b> · scouted ${Math.round(scoutRel(p) * 100)}%</span>
-          <span class="skulls" title="${skT}">${[1, 2, 3, 4, 5].map((i) => `<i class="${i <= sk ? 'on' : ''}">${ICON.skull}</i>`).join('')}<b>${skT}</b></span></div>
-        <span class="rv-ovr"><b class="num">${rv.ovr}</b>TEAM</span>
-      </div>
-      <span class="h-game" style="font-size:18px">ATTACK <small class="muted" style="font-family:var(--body);font-size:11px;font-weight:800">pick 1 of 4</small></span>
-      <div class="grid2 og">${atks.map((o) => optCard(o, ATK.find((x) => x.id === o.id), 'atk')).join('')}</div>
-      <span class="h-game" style="font-size:18px">DEFENCE <small class="muted" style="font-family:var(--body);font-size:11px;font-weight:800">pick 1 of 4</small></span>
-      <div class="grid2 og">${defs.map((o) => optCard(o, DEF.find((x) => x.id === o.id), 'def')).join('')}</div>
+      ${courtView(p, rv)}
+      <div class="prow"><span class="plbl a">YOUR SHOT</span><div class="pgrid">${atks.map((o) => planChip(o, 'atk', atkGlyph(o.id))).join('')}</div></div>
+      <div class="prow"><span class="plbl d">YOUR DEFENCE</span><div class="pgrid">${defs.map((o) => planChip(o, 'def', defGlyph(DEF.find((d) => d.id === o.id).v[rv.fav]))).join('')}</div></div>
       <div class="foot">
         <div class="chancebox sm"><div style="display:flex;flex-direction:column;line-height:1"><span style="font-size:10px;font-weight:900;letter-spacing:1.2px;color:#BDE9FF">TITLE CHANCE</span><span class="big num">${pct(od.mid)}</span></div>
           <div style="flex:1;display:flex;flex-direction:column;gap:5px"><div class="rangebar"><div class="rg" style="left:${(od.lo * 100).toFixed(0)}%;width:${Math.max(2, (od.hi - od.lo) * 100).toFixed(0)}%"></div><div class="dot" style="left:${(od.mid * 100).toFixed(0)}%"></div></div>
-          <span style="font-size:11px;font-weight:800;color:#DDF4FF">${od.risky ? 'Risky' : 'Safe'} · ${pct(od.lo)}–${pct(od.hi)} · win <b style="color:var(--sun)">${short(ev.prize)}</b></span></div></div>
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:900;color:#DDF4FF">${ICON.coin(14)}WIN <b style="color:var(--sun)">${short(ev.prize)}</b>${od.risky ? '<span class="risk">RISKY</span>' : ''}</span></div></div>
         <button class="btn" data-a="play">${ev.entry ? `PLAY · ${short(ev.entry)}` : 'PLAY · FREE ENTRY'}</button>
       </div>
     </div>
@@ -2191,7 +2475,7 @@ function rewardTiles(r) {
   return `<div class="rewards">
     <div class="rew" style="background:var(--cash-bg)">${ICON.coin(30)}<b class="num">${r.prize ? '+' + short(r.prize) : '0'}</b><span style="color:var(--cash-fg)">PRIZE</span></div>
     <div class="rew" style="background:var(--both-bg)">${ICON.up()}<b class="num">${o1}→${o2}</b><span style="color:var(--green-ink)">OVR</span></div>
-    <div class="rew" style="background:var(--def-bg)">${ICON.star()}<b class="num">${r.partnerB}→${r.partnerA}</b><span style="color:var(--def-fg)">PARTNER</span></div>
+    <div class="rew" style="background:var(--def-bg)">${G.run && G.run.partner ? `<img class="rew-f" src="${pimg(G.run.partner)}" alt="">` : ICON.star()}<b class="num">${r.partnerB}→${r.partnerA}</b><span style="color:var(--def-fg)">${G.run && G.run.partner ? esc(G.run.partner.first.toUpperCase()) : 'PARTNER'}</span></div>
     <div class="rew" style="background:${r.enA >= 40 ? 'var(--both-bg)' : '#FFE3E9'}"><svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 L4 14 H11 L10 22 L20 9 H13 Z" fill="${r.enA >= 40 ? '#22C46E' : '#FF4D6D'}" stroke="#0B2545" stroke-width="1.5"/></svg><b class="num">${r.enA}</b><span>FITNESS</span></div>
   </div>`;
 }
@@ -2217,7 +2501,7 @@ function resultPopup() {
     showOv(`${trophySvg()}
       ${logoChip}
       <div class="big" style="font-size:${r.crownNow || r.worldNow ? 34 : 42}px">${r.crownNow ? 'CHAMPION OF BRAZIL!' : r.worldNow ? 'WORLD CHAMPIONS!' : 'CAMPEÕES!'}</div>
-      <span style="font-size:13px;font-weight:900">You beat the most feared duo: ${esc(r.rivalName)}</span>
+      <span style="font-size:13px;font-weight:900">Beat ${esc(r.rivalName)}</span>
       <span class="h-game num" style="display:inline-flex;align-items:center;gap:8px;padding:3px 16px;border-radius:999px;background:#fff;border:3px solid var(--navy);font-size:24px">${ICON.coin(24)}${sbrl(r.prize)}</span>
       ${rewardTiles(r)}
       ${moneyLines(r)}
@@ -2230,11 +2514,10 @@ function resultPopup() {
     showOv(`${medalSvg(ru ? 'silver' : 'bronze')}
       ${logoChip}
       <div class="big">${ru ? 'RUNNER-UP!' : 'SEMI-FINAL!'}</div>
-      <span style="padding:4px 12px;border-radius:999px;background:var(--ice);font-size:13px;font-weight:900">Lost ${lastM.final ? 'the final' : 'the semi'} ${lastM.us}–${lastM.them}${lastM.them - lastM.us <= 3 ? '. So close.' : '.'} ${r.matches.length} games played.</span>
+      <span style="padding:4px 12px;border-radius:999px;background:var(--ice);font-size:13px;font-weight:900">${lastM.final ? 'Final' : 'Semi'} ${lastM.us}–${lastM.them}</span>
       ${rewardTiles(r)}
       ${moneyLines(r)}
       ${unlockCards(unl)}
-      ${r.tip ? `<div class="whybox"><b>Next time:</b> ${esc(r.tip)}</div>` : ''}
       ${mae(maeSays(ru ? 'runner' : 'semi'))}
       <button class="btn" data-a="afterresult">${cta}</button>`);
   } else {
@@ -2245,8 +2528,7 @@ function resultPopup() {
       ${rewardTiles(r)}
       ${moneyLines(r)}
       ${unlockCards(unl)}
-      ${r.tip ? `<div class="whybox"><b>Next time:</b> ${esc(r.tip)}</div>` : ''}
-      ${mae(maeSays('out'))}
+      ${r.tip ? `<div class="whybox"><b>Tip:</b> ${esc(r.tip)}</div>` : mae(maeSays('out'))}
       <button class="btn" data-a="afterresult">${cta}</button>`, 'noicon');
   }
 }
@@ -2285,9 +2567,8 @@ function withMilestone(next) {
   showOv(`${bagSvg(mil ? '1M' : short(ms))}
     <span class="chip navy">Money milestone</span>
     <div class="big" style="font-size:${mil ? 40 : 44}px">${mil ? 'YOU HAVE A MILLION!' : `R$ ${short(ms)} BANKED!`}</div>
-    <div style="font-size:15px;font-weight:800">${mil ? 'Now hold on to it. The final count is at the end of stop 8.' : `That's ${goalPct(ms)} of the million. Next: R$ ${short(nextMs)}.`}</div>
-    ${mmBar(p.money, { label: `BANK ${brl(p.money)}` })}
-    ${mae(maeSays('money'))}
+    ${mil ? '<div style="font-size:14px;font-weight:800">Hold on to it until stop 8.</div>' : ''}
+    ${mmBar(p.money, { label: `NEXT: R$ ${short(nextMs || GOAL)}` })}
     <button class="btn" data-a="msok">${mil ? 'DON\'T BLOW IT' : 'KEEP GOING'}</button>`, '', mil ? '<div class="champ-rays"></div>' : '');
   G.ui.msNext = next;
 }
@@ -2406,6 +2687,7 @@ const ACT = {
     const nm = $('#nm'); if (nm) G.cfg.name = nm.value;
     G.run = newRun(G.cfg); G.run.runId = Math.random().toString(36).slice(2, 14); track('career_start', { weekly: G.cfg.weekly || null, club: G.cfg.club, side: G.cfg.side, face: G.cfg.face }); sfx('tap'); openRaffle();
   },
+  pcard() { partnerCard(); },
   ppick(v) { G.ui.psel = v; sfx('tap'); go('partner', null, true); },
   respin() {
     const p = G.run, c = respinCost(p, G.ui.spins || 0); if (p.money < c) return;
@@ -2417,7 +2699,7 @@ const ACT = {
     if (c.fee > p.money && !c.keep) { toast(`Not enough money for ${c.first}`); return; }
     if (c.fee) money(p, -c.fee, 'costs');
     track('partner_sign', { keep: !!c.keep, tier: c.tier, fee: c.fee, ovr: c.ovr, side_ok: c.side !== p.side });
-    if (c.keep) { if (p.stop === 4) p.kept = true; } else { const n = { ...c }; delete n.keep; p.partner = n; p.streak = 0; }
+    if (c.keep) { if (p.stop === 4) p.kept = true; } else { const n = { ...c }; delete n.keep; n.hist = [n.ovr]; n.since = p.stop; p.partner = n; p.streak = 0; }
     sfx('coin'); go('road', { pinFrom: p.stop > 0 ? p.stop - 1 : undefined });
   },
   road() { if (!G.run || !G.run.partner) return; if (G.run && !G.run.over && ['train', 'plan', 'gains', 'rachao'].includes(G.screen)) { G.ui.back = G.screen; } go('road'); },
@@ -2607,7 +2889,7 @@ Object.assign(ACT, {
 
 
 /* ---- analytics: anonymous gameplay events → Supabase `events` (insert-only, no cookies) ---- */
-const APP_VERSION = '1.2.0';
+const APP_VERSION = '1.3.0-preview';
 const AN = { q: [], sid: Math.random().toString(36).slice(2, 12), vid: null, t: null };
 try { AN.vid = localStorage.getItem('rei.vid') || (localStorage.setItem('rei.vid', Math.random().toString(36).slice(2, 14)), localStorage.getItem('rei.vid')); } catch (e) { /* private mode */ }
 AN.vid = AN.vid || AN.sid;
