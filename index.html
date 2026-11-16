@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
-<script src="config.js"></script>
+<script src="config.js?v=1.19.1"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Nunito+Sans:wght@500;700;800;900&display=swap">
@@ -4682,7 +4682,7 @@ Object.assign(ACT, {
 
 
 /* ---- analytics: anonymous gameplay events → Supabase `events` (insert-only, no cookies) ---- */
-const APP_VERSION = '1.19.0';
+const APP_VERSION = '1.19.1';
 const AN = { q: [], sid: Math.random().toString(36).slice(2, 12), vid: null, t: null };
 try { AN.vid = localStorage.getItem('rei.vid') || (localStorage.setItem('rei.vid', Math.random().toString(36).slice(2, 14)), localStorage.getItem('rei.vid')); } catch (e) { /* private mode */ }
 AN.vid = AN.vid || AN.sid;
