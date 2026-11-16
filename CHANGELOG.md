@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.19.0
+- Career goal: reach R$ 1,000,000 in 3 seasons of 4 tournaments (CBFUT, TAFC, Open Nacional, Liga Grande Final). Each tournament plays a short version of its real format (repechage, double elimination, best of 3 sets, group + no deuce).
+- New flow: your team → training camp → tactics → meet your rivals → live tournament → payday → career decision → road map.
+- Live matches with must-win moments, a 50/50 clutch read at 17-17, golden point finals and a premium knockout arena.
+- New tactics: Shark, Powerful Header, Pingo, Águia vs Shark / Pingo / Line / Lob Defense.
+- Career decisions are yes/no gambles. Money HUD, payday screen, richest-in-Brazil ladder. OVR grows towards 100 over the seasons; category badges.
+- Social leaderboards: the R$ 1M race (all careers) and a daily challenge. Needs the `scores` table from schema.sql.
+- Brazilian Portuguese (EN / PT-BR switch on every screen). First-time tutorial with replay.
+- Analytics: optional PostHog (set `posthogKey` in config.js) next to the built-in Supabase events.
+
 ## 1.3.0
 - Header: 8 stop segments (gold = title) instead of a log-scale money bar; "% of 1M" is accurate.
 - Training: tap the skills you want to train (up to 3), "Coach picks" shortcut, two weekly specials, live "after training" bar. New Chest session.

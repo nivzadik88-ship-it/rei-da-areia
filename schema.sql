@@ -144,3 +144,66 @@ select jsonb_build_object(
 );
 $$;
 grant execute on function public.stats_overview(int) to anon, authenticated;
+
+
+-- =====================================================================
+-- Rei da Areia · social leaderboards (R$ 1M race + daily challenges)
+-- Run once in Supabase → SQL Editor. Safe to re-run. Does not touch the existing tables.
+
+create extension if not exists pgcrypto;
+
+create table if not exists public.scores (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  board       text not null check (board ~ '^(career|d-\d{4}-\d{2}-\d{2}-[a-z]{2,12})$'),
+  player_name text not null check (char_length(player_name) between 1 and 14),
+  face        text not null default 'a01' check (char_length(face) <= 4),
+  visitor     text not null check (char_length(visitor) between 4 and 40),  -- random id kept in the browser
+  value       integer not null check (value between 0 and 3000000),
+  meta        jsonb not null default '{}' check (pg_column_size(meta) < 600),
+  version     text check (char_length(version) <= 20)
+);
+create index if not exists scores_board_idx on public.scores (board, value desc, created_at);
+
+alter table public.scores enable row level security;
+drop policy if exists "scores are public" on public.scores;
+create policy "scores are public" on public.scores for select using (true);
+grant select on public.scores to anon, authenticated;
+revoke insert, update, delete on public.scores from anon, authenticated;
+
+-- All writes go through this function (sanity checks + rate limit). Every score is kept.
+create or replace function public.submit_score(s jsonb)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  new_id uuid;
+  b text := s->>'board';
+  v bigint := (s->>'value')::bigint;
+  kind text;
+  recent int;
+begin
+  if b is null or v is null or v < 0 then raise exception 'bad score'; end if;
+  if b = 'career' then
+    if v > 3000000 then raise exception 'value out of range'; end if;
+  else
+    if b !~ '^d-\d{4}-\d{2}-\d{2}-[a-z]{2,12}$' then raise exception 'bad board'; end if;
+    -- daily boards accept scores only around their own day
+    if abs(substring(b from 3 for 10)::date - (now() at time zone 'utc')::date) > 1 then raise exception 'challenge is closed'; end if;
+    kind := substring(b from 14);
+    if kind = 'streak' and v > 4 then raise exception 'value out of range'; end if;
+    if kind = 'ovr' and v > 99 then raise exception 'value out of range'; end if;
+    if kind = 'cash' and v > 2000000 then raise exception 'value out of range'; end if;
+  end if;
+  select count(*) into recent from scores where visitor = s->>'visitor' and created_at > now() - interval '1 hour';
+  if recent >= 30 then raise exception 'slow down'; end if;
+
+  insert into scores (board, player_name, face, visitor, value, meta, version)
+  values (b, left(trim(coalesce(nullif(s->>'player_name', ''), 'Zé')), 14), left(coalesce(s->>'face', 'a01'), 4),
+          s->>'visitor', v::int, coalesce(s->'meta', '{}'::jsonb), left(s->>'version', 20))
+  returning id into new_id;
+  return new_id;
+end $$;
+grant execute on function public.submit_score(jsonb) to anon, authenticated;
