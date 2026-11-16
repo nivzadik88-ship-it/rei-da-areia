@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
-<script src="config.js?v=1.19.1"></script>
+<script src="config.js?v=1.19.2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Lilita+One&family=Nunito+Sans:wght@500;700;800;900&display=swap">
@@ -4682,7 +4682,7 @@ Object.assign(ACT, {
 
 
 /* ---- analytics: anonymous gameplay events → Supabase `events` (insert-only, no cookies) ---- */
-const APP_VERSION = '1.19.1';
+const APP_VERSION = '1.19.2';
 const AN = { q: [], sid: Math.random().toString(36).slice(2, 12), vid: null, t: null };
 try { AN.vid = localStorage.getItem('rei.vid') || (localStorage.setItem('rei.vid', Math.random().toString(36).slice(2, 14)), localStorage.getItem('rei.vid')); } catch (e) { /* private mode */ }
 AN.vid = AN.vid || AN.sid;
@@ -4694,11 +4694,24 @@ function phFlush(keep) {
   const batch = PH.q.splice(0, 50);
   fetch(`${PH.host}/batch/`, { method: 'POST', keepalive: !!keep, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ api_key: PH.key, batch }) }).catch(() => {});
 }
+/* full PostHog (session replay + heatmaps). Stores its id in localStorage, no cookies. Text the player types stays masked. */
+function phInit() {
+  if (!PH.key || APP_VERSION.includes('preview') || window.posthog) return;
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify alias set_config startSessionRecording stopSessionRecording reset get_distinct_id get_session_id opt_out_capturing opt_in_capturing".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init(PH.key, {
+    api_host: PH.host, persistence: 'localStorage', person_profiles: 'identified_only',
+    bootstrap: { distinctID: AN.vid }, capture_pageview: true, capture_pageleave: true, autocapture: true,
+    enable_heatmaps: true, session_recording: { maskAllInputs: true },
+  });
+  posthog.register({ version: APP_VERSION, device: DEVICE, lang: DB.lang || 'en' });
+}
 function track(name, props = {}, stop = null) {
   if (APP_VERSION.includes('preview')) return;
   const p = G.run && !G.run.over ? G.run : null;
   if (p && !p.runId) p.runId = Math.random().toString(36).slice(2, 14);
-  if (PH.key) {
+  if (PH.key && window.posthog && posthog.capture) {
+    posthog.capture(name, { ...props, run: (G.run && G.run.runId) || null, stop: stop ?? (p ? p.stop : null), season: p ? p.season || 1 : null, money: p ? Math.round(p.money) : null, ovr: p ? ovr(p) : null, lang: DB.lang || 'en' });
+  } else if (PH.key) {
     PH.q.push({ event: name, timestamp: new Date().toISOString(), properties: { ...props, distinct_id: AN.vid, $session_id: AN.sid, $current_url: location.href, $lib: 'rei-da-areia', run: (G.run && G.run.runId) || null, stop: stop ?? (p ? p.stop : null), season: p ? p.season || 1 : null, money: p ? Math.round(p.money) : null, ovr: p ? ovr(p) : null, lang: DB.lang || 'en', version: APP_VERSION, device: DEVICE, $process_person_profile: false } });
     if (PH.q.length >= 20) phFlush(); else if (!PH.t) PH.t = setTimeout(() => { PH.t = null; phFlush(); }, 3000);
   }
@@ -4714,6 +4727,7 @@ function flushEvents(keep) {
 }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { flushEvents(true); phFlush(true); } });
 addEventListener('pagehide', () => { flushEvents(true); phFlush(true); });
+try { phInit(); } catch (e) { /* analytics unavailable */ }
 
 /* ---- boot: a run that was mid-match resumes on its result ---- */
 (function boot() {
