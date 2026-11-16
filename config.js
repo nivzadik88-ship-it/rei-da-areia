@@ -5,6 +5,6 @@ window.REI_CONFIG = {
   supabaseUrl: 'https://yyqvwsmlzkdyeyanvlxa.supabase.co',
   supabaseAnonKey: 'sb_publishable_mUow3s-P7Ci0kijGiyXwbw_iu9pcWGG',
   // PostHog analytics (optional): paste the Project API key (starts with phc_). Host: US = https://us.i.posthog.com, EU = https://eu.i.posthog.com
-  posthogKey: '',
+  posthogKey: 'phc_tYDo6Hh9kRPAKmyvn2BSxYbi7S9h2UweKGTqjHxsQGhi',
   posthogHost: 'https://us.i.posthog.com',
 };
